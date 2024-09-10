@@ -1,0 +1,221 @@
+{
+  "version": "6.0",
+  "nxVersion": "19.5.2",
+  "deps": {
+    "@elastic/elasticsearch": "^8.14.0",
+    "@types/mongoose": "^5.11.97",
+    "@types/xml2js": "^0.4.14",
+    "axios": "^1.7.2",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-async-errors": "^3.1.1",
+    "express-validator": "^7.1.0",
+    "ioredis": "^5.4.1",
+    "jsonwebtoken": "^9.0.2",
+    "moment": "^2.30.1",
+    "mongoose": "^8.5.2",
+    "redis": "^4.7.0",
+    "soap": "^1.0.4",
+    "uuid": "^10.0.0",
+    "winston": "^3.13.1",
+    "winston-elasticsearch": "^0.19.0",
+    "xml2js": "^0.6.2",
+    "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.6",
+    "@types/node": "^20.14.10",
+    "@types/uuid": "^10.0.0",
+    "nodemon": "^3.1.4",
+    "nx": "19.5.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.4"
+  },
+  "pathMappings": {},
+  "nxJsonPlugins": [],
+  "fileMap": {
+    "nonProjectFiles": [],
+    "projectFileMap": {
+      "API-Gateway": [
+        {
+          "file": ".gitignore",
+          "hash": "3009140142791806673"
+        },
+        {
+          "file": "README.md",
+          "hash": "5677153080336869377"
+        },
+        {
+          "file": "nodemon.json",
+          "hash": "13825202933254525647"
+        },
+        {
+          "file": "nx.json",
+          "hash": "9225273732571563889"
+        },
+        {
+          "file": "package-lock.json",
+          "hash": "392648087788726951"
+        },
+        {
+          "file": "package.json",
+          "hash": "12262159882178444985",
+          "deps": [
+            "npm:@types/express",
+            "npm:@types/jsonwebtoken",
+            "npm:@types/node",
+            "npm:@types/uuid",
+            "npm:nodemon",
+            "npm:nx",
+            "npm:ts-node",
+            "npm:typescript",
+            "npm:@elastic/elasticsearch",
+            "npm:@types/mongoose",
+            "npm:@types/xml2js",
+            "npm:axios",
+            "npm:dotenv",
+            "npm:express",
+            "npm:express-async-errors",
+            "npm:express-validator",
+            "npm:ioredis",
+            "npm:jsonwebtoken",
+            "npm:moment",
+            "npm:mongoose",
+            "npm:redis",
+            "npm:soap",
+            "npm:uuid",
+            "npm:winston",
+            "npm:winston-elasticsearch",
+            "npm:xml2js"
+          ]
+        },
+        {
+          "file": "src/config/config.ts",
+          "hash": "3825235746142256749"
+        },
+        {
+          "file": "src/config/connection.ts",
+          "hash": "9845978017655385989"
+        },
+        {
+          "file": "src/core/airPricing.helpers.ts",
+          "hash": "12465316398803943225"
+        },
+        {
+          "file": "src/core/farerule.helpers.ts",
+          "hash": "12465316398803943225"
+        },
+        {
+          "file": "src/core/rbd.helpers.ts",
+          "hash": "12465316398803943225"
+        },
+        {
+          "file": "src/core/redisService/airportService.ts",
+          "hash": "13682704672737888491"
+        },
+        {
+          "file": "src/core/search.helpers.ts",
+          "hash": "12465316398803943225"
+        },
+        {
+          "file": "src/core/vendor.helpers.ts",
+          "hash": "1229391063067697754"
+        },
+        {
+          "file": "src/index.ts",
+          "hash": "9841543958413118802"
+        },
+        {
+          "file": "src/middleware/authMiddleware.ts",
+          "hash": "4644157696987621024"
+        },
+        {
+          "file": "src/middleware/errorHandler.ts",
+          "hash": "17612357759668998487"
+        },
+        {
+          "file": "src/middleware/validateRequest.ts",
+          "hash": "9551235505296327509"
+        },
+        {
+          "file": "src/models/city.model.ts",
+          "hash": "12451072078123359909"
+        },
+        {
+          "file": "src/models/country.model.ts",
+          "hash": "15566117528581908781"
+        },
+        {
+          "file": "src/seeders/airline.seeder.ts",
+          "hash": "7435739601543794488"
+        },
+        {
+          "file": "src/seeders/airport.seeder.ts",
+          "hash": "5042124303024964143"
+        },
+        {
+          "file": "src/seeders/city.seeder.ts",
+          "hash": "16085665082009160129"
+        },
+        {
+          "file": "src/seeders/index.seeder.ts",
+          "hash": "9417131898668625272"
+        },
+        {
+          "file": "src/services/auth/auth.controller.ts",
+          "hash": "10710974681743407355"
+        },
+        {
+          "file": "src/services/auth/auth.routes.ts",
+          "hash": "12635163841714272512"
+        },
+        {
+          "file": "src/services/auth/auth.service.ts",
+          "hash": "14832557793912628707"
+        },
+        {
+          "file": "src/services/search/search.controller.ts",
+          "hash": "6010332503237492485"
+        },
+        {
+          "file": "src/services/search/search.routes.ts",
+          "hash": "3501215762051095834"
+        },
+        {
+          "file": "src/services/search/search.service.ts",
+          "hash": "9904256162012572723"
+        },
+        {
+          "file": "src/utils/CustomError.ts",
+          "hash": "16049793688828153471"
+        },
+        {
+          "file": "src/utils/generateToken.ts",
+          "hash": "2538479801714270085"
+        },
+        {
+          "file": "src/utils/logger.ts",
+          "hash": "8436508723972274224"
+        },
+        {
+          "file": "src/utils/redisClient.ts",
+          "hash": "10527165105410210436"
+        },
+        {
+          "file": "src/utils/validations/search.validation.ts",
+          "hash": "972400506882910965"
+        },
+        {
+          "file": "tsconfig.json",
+          "hash": "9346638019438328334"
+        },
+        {
+          "file": "src/utils/tbo.req.ts",
+          "hash": "16880756872645183269"
+        },
+        {
+          "file": "src/middleware/inject-tbo-creds.ts",
+          "hash": "9216674502639490154"
+        }
+      ]
+    }
+  }
+}

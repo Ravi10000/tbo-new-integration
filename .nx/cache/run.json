@@ -1,0 +1,21 @@
+{
+  "run": {
+    "command": "nx run amadeus-soap-microservises:test",
+    "startTime": "2024-07-23T06:43:09.406Z",
+    "endTime": "2024-07-23T06:43:10.849Z",
+    "inner": false
+  },
+  "tasks": [
+    {
+      "taskId": "amadeus-soap-microservises:test",
+      "target": "test",
+      "projectName": "amadeus-soap-microservises",
+      "hash": "12946357840376843267",
+      "startTime": "2024-07-23T06:43:09.414Z",
+      "endTime": "2024-07-23T06:43:10.848Z",
+      "params": "",
+      "cacheStatus": "cache-miss",
+      "status": 1
+    }
+  ]
+}
