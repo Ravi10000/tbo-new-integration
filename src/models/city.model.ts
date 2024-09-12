@@ -1,7 +1,7 @@
-import { Schema, model } from "mongoose";
+import { Document, Schema, model } from "mongoose";
 
 
-export interface ICity {
+export interface ICity extends Document {
     Code: string;
     Name: string;
 }
@@ -15,6 +15,11 @@ const citySchema = new Schema({
         type: String,
         required: true
     },
+    CountryCode: {
+        type: String,
+        required: true
+    }
 });
 
-export default model<ICity>("City", citySchema)
+const City = model<ICity>("City", citySchema)
+export default City;

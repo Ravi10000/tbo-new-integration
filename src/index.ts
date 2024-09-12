@@ -4,8 +4,10 @@ import dotenv from 'dotenv';
 import searchRoutes from './services/search/search.routes';
 import authRoutes from './services/auth/auth.routes';
 import errorHandler from './middleware/errorHandler';
-// Load environment variables
+import { connectionMongoDb } from './config/connection';
+import { MongoUrl } from './config/config';
 dotenv.config();
+// Load environment variables
 
 const app = express();
 
@@ -16,6 +18,7 @@ app.use('/api/auth', authRoutes);
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 3100;
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
+    await connectionMongoDb(MongoUrl());
     console.log(`Server is running on port ${PORT}`);
 });

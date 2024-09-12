@@ -1,6 +1,6 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, Document } from "mongoose";
 
-export interface ICountry {
+export interface ICountry extends Document {
     Code: string;
     Name: string;
 }
