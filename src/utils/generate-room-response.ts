@@ -1,10 +1,11 @@
 import { IRoomRate, ITBORoom } from "../interfaces/search.interface";
 
-export function generateRoomResponse(room: ITBORoom, hotelCode: string, resultIndex: string): IRoomRate[] {
+export function generateRoomResponse(room: ITBORoom, hotelCode: string, resultIndex: string, roomIdx: number): IRoomRate[] {
     const roomPrice = room.TotalFare / (room.Name.length);
     const roomTax = roomPrice - (room.TotalTax / room.Name.length);
-    const roomRates = room.Name.map((name: string, idx: number) => {
-        const id = [hotelCode, resultIndex, idx].join("|");
+    const roomRates = room.Name.map((name: string, idx) => {
+        const id = [hotelCode, resultIndex, roomIdx, idx].join("|");
+        console.log({ id, hotelCode, resultIndex, roomIdx, idx });
         return {
             RoomID: id,
             RoomName: name,

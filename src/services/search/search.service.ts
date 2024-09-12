@@ -38,9 +38,10 @@ class SearchService {
             PaxRooms,
             IsDetailedResponse: true,
             Filters: {
-                NoOfRooms: 1, // 1 or 0 | corresponds to the no. of room combinations and not no. of rooms
+                NoOfRooms: 0, // 1 or 0 | corresponds to the no. of room combinations and not no. of rooms
             }
         };
+        console.dir({ requestBody }, { depth: null });
 
         const { data: hotelSearchResponse } = await TBO.post(TBO_ENDPOINTS.HOTEL_SEARCH, requestBody, {
             auth: {
@@ -48,7 +49,7 @@ class SearchService {
                 password: credentials.PASSWORD
             }
         })
-        console.log({ hotelSearchResponse });
+        // console.log({ hotelSearchResponse });
         if (hotelSearchResponse.Status.Code !== 200) throw new Error("Failed to get hotel details")
 
         let filteredHotels: ITBOHotelRates[] = hotelSearchResponse.HotelResult;
@@ -60,14 +61,17 @@ class SearchService {
         }
         const hotelsList = hotelSearchResponse.HotelResult.map((hotel: any) => {
             let staticHotelDetails = staticHotelsMap[hotel.HotelCode];
-            console.log({ staticHotelDetails });
+            // console.log({ staticHotelDetails });
             if (!staticHotelDetails) return hotel;
             const combinedHotel: ITBOCombinedHotelDetails = {
                 ...staticHotelDetails,
                 ...hotel,
             };
             const [hotelCode, resultIndex, traceID, _provider] = combinedHotel.Rooms[0].BookingCode.split("!TB!");
-            const combinedResultIndex = combinedHotel.Rooms.map((room: ITBORoom) => room.BookingCode).join("|");
+            const combinedResultIndex = combinedHotel.Rooms.map((room: ITBORoom) => {
+                const [hotelCode, resultIndex, traceID, _provider] = room.BookingCode.split("!TB!");
+                return resultIndex;
+            }).join("|");
             const [latitude, longitude] = combinedHotel.Map.split("|");
             const searchID = crypto.randomUUID() + "|" + traceID;
             return {
@@ -95,9 +99,9 @@ class SearchService {
                 resultIndex: combinedResultIndex,
                 hotelLocation: "others",
                 Refundable: combinedHotel.Rooms[0].IsRefundable,
-                RoomTypes: combinedHotel.Rooms.map((room) => ({
+                RoomTypes: combinedHotel.Rooms.map((room, roomIdx) => ({
                     RoomTypeCode: room.BookingCode,
-                    RoomRates: generateRoomResponse(room, hotelCode, resultIndex)
+                    RoomRates: generateRoomResponse(room, hotelCode, resultIndex, roomIdx)
                 }))
             }
         });

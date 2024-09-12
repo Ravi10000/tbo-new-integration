@@ -22,5 +22,6 @@ export function generatePaxRooms(rooms: IRoom[]): IPaxRoom[] {
         }
         PaxRooms.push(roomDetails);
     }
+    console.log({ PaxRooms })
     return PaxRooms;
 }
