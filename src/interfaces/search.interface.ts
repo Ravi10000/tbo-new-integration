@@ -4,12 +4,14 @@ export interface IRoom {
     Guests: IGuest[]
 }
 
-
 export interface IGuest {
     GuestType: string;
     GuestAge: number;
 }
 
+export interface IStaticHotelMap {
+    [key: string]: IStaticHotel;
+}
 export interface ISearchRequest {
     Rooms: IRoom[];
     Authentication: {
@@ -57,7 +59,6 @@ export interface IPaxRoom {
     Children: number;
     ChildrenAges: number[] | null
 }
-
 
 export interface ITBORoom {
     Name: string[];
@@ -160,7 +161,7 @@ export interface ITaxBreakup {
 export interface IHotelResponse {
     DocumentsRequired: null;
     searchID: string;
-    AccomodationType: null;
+    AccommodationType: null;
     ChainName: null;
     supplierID: string;
     hotelPicture: string;

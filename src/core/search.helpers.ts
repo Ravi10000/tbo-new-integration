@@ -1,68 +1,75 @@
-export function mergeResponsesForDOM(input: any): any {
-    const mergedResponse: any = {
-        uniqueKey: "",
-        traceId: "",
-        journey: []
-    };
+import { ISearchRequest, IStaticHotelMap, ITBOHotelRates } from "../interfaces/search.interface";
+import { TBOCreds } from "../middleware/inject-tbo-creds";
+import { ICity } from "../models/city.model";
+import StaticHotel, { IStaticHotel } from "../models/static-hotel.model";
+import CustomError from "../utils/CustomError";
+import { TBO, TBO_ENDPOINTS } from "../utils/tbo.req";
+import { IPaxRoom, IRoom } from "../interfaces/search.interface";
 
-    for (const key in input) {
-        const airline = input[key];
-        if (!mergedResponse.uniqueKey) {
-            mergedResponse.uniqueKey = airline.uniqueKey;
-            mergedResponse.traceId = airline.traceId;
-        }
 
-        airline.journey.forEach((journey: any) => {
-            const existingJourney = mergedResponse.journey.find(
-                (j:any) => j.origin === journey.origin && j.destination === journey.destination
-            );
+export async function getStaticHotels(data: ISearchRequest, city: ICity) {
+    const query: { [key: string]: any } = { CityId: city.Code };
+    if (data.StarRating) query.HotelRating = data.StarRating;
 
-            if (existingJourney) {
-                existingJourney.itinerary.push(...journey.itinerary);
-            } else {
-                mergedResponse.journey.push(journey);
-            }
-        });
-    }   
-
-    return mergedResponse;
+    const staticHotels = await StaticHotel.find(query);
+    const staticHotelsMap: IStaticHotelMap = staticHotels.reduce(
+        (acc: IStaticHotelMap, hotel) => { acc[hotel.HotelCode] = hotel.toObject(); return acc; },
+        {});
+    const hotelCodeList = generateHotelCodesList(staticHotels);
+    return { staticHotelsMap, hotelCodeList }
 }
 
-export function mergeResponsesForINT(data: { [key: string]: any }): any {
-    const mergedItineraries: any = [];
-    let uniqueKey = '';
-    let traceId = '';
-    let origin = '';
-    let destination = '';
+export async function getHotelsFare(requestBody: any, credentials: TBOCreds): Promise<ITBOHotelRates[]> {
+    const { data } = await TBO.post(TBO_ENDPOINTS.HOTEL_SEARCH, requestBody, {
+        auth: {
+            username: credentials.USERNAME,
+            password: credentials.PASSWORD
+        }
+    })
+    if (data.Code !== 200) throw new CustomError("hotels search error", 500, data);
+    return data.HotelResult;
+}
+export function filterHotelsByPriceRange(hotels: ITBOHotelRates[], min: number | null | undefined, max: number | null | undefined): ITBOHotelRates[] {
+    if (min && max)
+        hotels = hotels.filter((hotel) => {
+            let totalFare = hotel.Rooms[0].TotalFare;
+            return totalFare >= Number(min) && totalFare <= Number(max);
+        })
+    return hotels;
+}
 
-    for (const airline in data) {
-        if (data.hasOwnProperty(airline)) {
-            const airlineData = data[airline];
-            uniqueKey = airlineData.uniqueKey;
-            traceId = airlineData.traceId;
-
-            for (const journey of airlineData.journey) {
-                if (!origin) {
-                    origin = journey.origin;
-                }
-                if (!destination) {
-                    destination = journey.destination;
-                }
-                mergedItineraries.push(...journey.itinerary);
+export function generatePaxRooms(rooms: IRoom[]): IPaxRoom[] {
+    const PaxRooms = [];
+    for (let room of rooms) {
+        let roomDetails: IPaxRoom = {
+            Adults: 0,
+            Children: 0,
+            ChildrenAges: [],
+        };
+        for (let guest of room.Guests) {
+            if (guest.GuestType === "ADT")
+                roomDetails.Adults += 1;
+            else {
+                roomDetails.Children += 1;
+                if (guest.GuestAge && roomDetails.ChildrenAges)
+                    roomDetails.ChildrenAges.push(guest.GuestAge);
             }
         }
+        if (!roomDetails?.ChildrenAges?.length) {
+            roomDetails.ChildrenAges = null;
+        }
+        PaxRooms.push(roomDetails);
     }
-
-    return {
-        uniqueKey,
-        traceId,
-        journey: [
-            {
-                uid: uniqueKey,
-                origin,
-                destination,
-                itinerary: mergedItineraries
-            }
-        ]
-    };
+    return PaxRooms;
+}
+export function generateHotelCodesList(hotels: IStaticHotel[], limit: number = 100) {
+    let [from, to] = [0, limit];
+    const hotelCodeList: string[] = [];
+    while (to <= hotels.length) {
+        const codes = hotels.slice(from, to).map(hotel => hotel.HotelCode).join(",");
+        hotelCodeList.push(codes);
+        from = to;
+        to = Math.min(hotels.length, (to + limit));
+    }
+    return hotelCodeList;
 }

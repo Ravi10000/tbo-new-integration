@@ -1,19 +1,10 @@
-import { body, param, query, FieldMessageFactory } from 'express-validator';
 import moment from 'moment';
+import { check } from '../check.validation';
 
 const isValidDate = (value: string) => {
     return moment(value, 'YYYY-MM-DD', true).isValid();
 };
 
-function check(key: string) {
-    const [target, ...name] = key.split('');
-    switch (target) {
-        case '?': return query(name);
-        case ':': return param(name);
-        default: return body(key);
-    }
-}
-// "Rooms": [{ "guests": [{ "guestType": "ADT", "guestAge": 0 }] }],
 export const searchValidation = [
     check('Check_In').custom(isValidDate)
         .withMessage("invalid check in date, valid format YYYY-MM-DD"),

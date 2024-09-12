@@ -6,11 +6,13 @@ import authRoutes from './services/auth/auth.routes';
 import errorHandler from './middleware/errorHandler';
 import { connectionMongoDb } from './config/connection';
 import { MongoUrl } from './config/config';
+
 dotenv.config();
 // Load environment variables
 
 const app = express();
 
+// app.use(compression())
 app.use(express.json());
 app.use('/api/hotels', searchRoutes);
 app.use('/api/auth', authRoutes);

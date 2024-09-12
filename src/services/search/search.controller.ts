@@ -1,13 +1,12 @@
-// src/services/search/search.controller.ts
-
-import { Request, Response, NextFunction } from 'express';
+import { Response, NextFunction } from 'express';
 import SearchService from './search.service';
 import { RequestTBO } from '../../middleware/inject-tbo-creds';
+import CustomError from '../../utils/CustomError';
 
 class SearchController {
     static async getSearches(req: RequestTBO, res: Response, next: NextFunction) {
         try {
-            if (!req.TBO?.USERNAME || !req.TBO?.PASSWORD) throw new Error("TBO credentials required")
+            if (!req.TBO?.USERNAME || !req.TBO?.PASSWORD) throw new CustomError("TBO credentials required", 400)
             const result = await SearchService.search(req.body, req.TBO);
             res.status(200).json({
                 success: true,
