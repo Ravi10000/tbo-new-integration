@@ -1,60 +1,60 @@
 import { IStaticHotel } from "../models/static-hotel.model";
 
 export interface IRoom {
-    Guests: IGuest[]
+    guests: IGuest[]
 }
 
 export interface IGuest {
-    GuestType: string;
-    GuestAge: number;
+    guestType: string;
+    guestAge: number;
 }
 
 export interface IStaticHotelMap {
     [key: string]: IStaticHotel;
 }
 export interface ISearchRequest {
-    Rooms: IRoom[];
-    Authentication: {
-        CompanyId: string;
-        CredentialId: string;
-        CredentialPassword: string;
-        CredentialType: string;
+    rooms: IRoom[];
+    authentication: {
+        companyId: string;
+        credentialId: string;
+        credentialPassword: string;
+        credentialType: string;
         salesChannel: null | undefined | string;
-        sessionID: null | undefined | string;
+        sessionId: null | undefined | string;
         // TraceId: null | undefined | string;
     };
-    TypeOfTrip: string;
-    Destination: {
-        Location: null | undefined | string;
-        ResignCode: null | undefined | string;
-        CityCode: null | undefined | string;
-        CityName: string;
-        CountryCode: string;
-        CountryName: string;
-        State: string;
+    typeOfTrip: string;
+    destination: {
+        location: null | undefined | string;
+        resignCode: null | undefined | string;
+        cityCode: null | undefined | string;
+        cityName: string;
+        countryCode: string;
+        countryName: string;
+        state: string;
     };
-    HotelCode: null | undefined | string;
-    Check_In: string;
-    Check_Out: string;
-    BudgetAmountFrom: null | undefined | number;
-    BudgetAmountTo: null | undefined | number;
-    SearchID: null | string | number;
-    ResultIndex: null | string | number;
-    CancellationPolicyCode: null | string | number;
-    RatePlanCode: null | string | number;
-    Nationality: string;
-    AccomodationType: null | string | number;
-    StarRating: null | string | number;
-    TotalItems: number;
-    PageSize: number;
-    PageNo: number;
-    TotalPage: number;
-    SessId: null | string | undefined;
-    RateType: null | string | undefined;
-    purpose_of_travel: null | string | number;
+    hotelCode: null | undefined | string;
+    checkIn: string;
+    checkOut: string;
+    budgetAmountFrom: null | undefined | number;
+    budgetAmountTo: null | undefined | number;
+    searchId: null | string;
+    resultIndex: null | string;
+    cancellationPolicyCode: null | string;
+    ratePlanCode: null | string;
+    nationality: string;
+    accommodationType: null | string;
+    starRating: null | number;
+    totalItems: number;
+    pageSize: number;
+    pageNo: number;
+    totalPage: number;
+    sessionId?: null | string;
+    rateType?: null | string;
+    purposeOfTravel: null | string;
 }
 
-export interface IPaxRoom {
+export interface ITBOPaxRoom {
     Adults: number;
     Children: number;
     ChildrenAges: number[] | null
@@ -64,13 +64,13 @@ export interface ITBORoom {
     Name: string[];
     BookingCode: string;
     Inclusion: string;
-    DayRates: { BasePrice: number; }[];
+    DayRates: DayRate[][];
     TotalFare: number;
     TotalTax: number;
     CancelPolicies: {
         FromDate: string;
         ChargeType: string;
-        CancellationCharge: string;
+        CancellationCharge: number;
     }[];
     RoomPromotion: string[] | undefined;
     MealType: string;
@@ -78,6 +78,10 @@ export interface ITBORoom {
     WithTransfers: boolean;
     BeddingGroup: string | undefined;
 }
+export interface DayRate {
+    BasePrice: number;
+}
+
 
 export interface ITBOHotelRates {
     HotelCode: string;
@@ -111,62 +115,71 @@ export interface ITBOHotelDetails {
 export interface ITBOCombinedHotelDetails extends IStaticHotel, ITBOHotelRates { }
 
 export interface IDocValidation {
-    IsPanCard: boolean;
-    IsAdharCard: boolean;
-    IsPassport: boolean;
-    OtherID: boolean
+    isPanCard: boolean;
+    isAadhaarCard: boolean;
+    isPassport: boolean;
+    otherId: boolean
 }
 
 export interface IRoomType {
-    RoomTypeCode: string; // pipe(|) separated values
-    RoomRates: IRoomRate[];
+    roomTypeCode: string; // pipe(|) separated values
+    roomRates: IRoomRate[];
 }
 export interface IRoomRate {
-    RoomID: string; // pipe(|) separated values
-    RoomName: string;
-    RoomTypeCode: string; // pipe(|) separated values
-    RoomDescription: null;
-    Room_Reference: null;
-    Images: null;
-    Guests: [];
-    Rates: IRateObject[];
-    CancelPenalties: string[];
-    Inclusions: string[];
-    HotelComments: string[]
+    roomId: string; // pipe(|) separated values
+    roomName: string;
+    roomTypeCode: string; // pipe(|) separated values
+    roomDescription: null;
+    roomReference: null;
+    images: null;
+    guests: [];
+    rates: IRateObject[];
+    cancelPenalties: CancelPenalty[];
+    inclusions: Inclusion[] | null;
+    hotelComments: string[];
+}
+export interface CancelPenalty {
+    name: string;
+    penaltyDescription: string;
+    nonRefundable: boolean;
+}
+export interface Inclusion {
+    boardingDetails: null | string;
+    inclusionDescription: string;
 }
 export interface IRateObject {
-    TotalPrice: number;
-    BasePrice: number;
-    Taxes: number;
-    TaxBreakup: ITaxBreakup[];
-    AdditionalGuestAmount: number;
-    Commission: ICommission;
-    Markup: number;
-    Commercial: null;
-    B2bCommercial: null;
+    totalPrice: number;
+    basePrice: number;
+    taxes: number;
+    taxBreakup: ITaxBreakup[];
+    additionalGuestAmount: number;
+    commission: ICommission;
+    markup: number;
+    commercial: null;
+    b2bCommercial: null;
 }
 export interface ICommission {
-    Amount: number;
-    TaxOnCommission: number;
-    TaxType: null;
-    NetCommission: number;
-    HotelTaxIncluded: null;
-    Percent: number;
+    amount: number;
+    taxOnCommission: number;
+    taxType: null;
+    netCommission: number;
+    hotelTaxIncluded: null;
+    percent: number;
 
 }
 export interface ITaxBreakup {
-    Type: string;
-    Amount: number;
+    type: string;
+    amount: number;
 }
 export interface IHotelResponse {
-    DocumentsRequired: null;
-    searchID: string;
-    AccommodationType: null;
-    ChainName: null;
-    supplierID: string;
+    documentsRequired: null;
+    searchId: string;
+    accommodationType: null | string;
+    chainName: null | string;
+    supplierId: string;
     hotelPicture: string;
     isHotDeal: boolean;
-    hotelRatings: number;
+    hotelRating: number;
     code: string;
     address: string;
     name: string;
@@ -174,14 +187,14 @@ export interface IHotelResponse {
     categoryName: string;
     latitude: string;
     longitude: string;
-    minRate: null;
-    maxRate: null;
+    minRate: null | number;
+    maxRate: null | number;
     currency: null | string;
     description: null | string;
     facilities: null | string[];
     totalPrice: number;
     resultIndex: string;
     hotelLocation: string;
-    Refundable: boolean;
-    RoomTypes: IRoomType[];
+    refundable: boolean;
+    roomTypes: IRoomType[];
 }

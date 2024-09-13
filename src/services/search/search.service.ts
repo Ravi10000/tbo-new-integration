@@ -1,26 +1,19 @@
-import CustomError from '../../utils/CustomError';
 import { ISearchRequest, ITBORoom, ITBOCombinedHotelDetails, IHotelResponse } from '../../interfaces/search.interface';
 import { TBOCreds } from '../../middleware/inject-tbo-creds';
-import City from '../../models/city.model';
-import { generatePaxRooms } from '../../utils/search.util';
-import crypto from "crypto"
-import { generateRoomResponse } from '../../utils/generate-room-response';
+import { generatePaxRooms, generateRoomResponse } from '../../core/search.helpers';
 import { filterHotelsByPriceRange, getHotelsFare, getStaticHotels } from '../../core/search.helpers';
 
 class SearchService {
     static async search(data: ISearchRequest, credentials: TBOCreds) {
-        const city = await City.findOne({ Name: new RegExp(data.Destination.CityName) });
-        if (!city) throw new CustomError("city not found", 404);
-        const uniqueSearchId = crypto.randomUUID();
-        const { staticHotelsMap, hotelCodeList } = await getStaticHotels(data, city)
-        const PaxRooms = generatePaxRooms(data.Rooms);
+        const { staticHotelsMap, hotelCodeList } = await getStaticHotels(data)
+        const PaxRooms = generatePaxRooms(data.rooms);
         const hotelsList: IHotelResponse[] = [];
         for (let codes of hotelCodeList) {
             const requestBody = {
-                CheckIn: data.Check_In,
-                CheckOut: data.Check_Out,
+                CheckIn: data.checkIn,
+                CheckOut: data.checkOut,
                 HotelCodes: codes,
-                GuestNationality: data.Nationality,
+                GuestNationality: data.nationality,
                 PaxRooms,
                 IsDetailedResponse: true,
                 Filters: {
@@ -28,7 +21,7 @@ class SearchService {
                 }
             };
             const hotelRates = await getHotelsFare(requestBody, credentials);
-            const filteredHotels = filterHotelsByPriceRange(hotelRates, data.BudgetAmountFrom, data.BudgetAmountTo);
+            const filteredHotels = filterHotelsByPriceRange(hotelRates, data.budgetAmountFrom, data.budgetAmountTo);
 
             for (let hotel of filteredHotels) {
                 let staticHotelDetails = staticHotelsMap[hotel.HotelCode];
@@ -37,23 +30,22 @@ class SearchService {
                     ...staticHotelDetails,
                     ...hotel,
                 } as ITBOCombinedHotelDetails;
-
-                const [hotelCode, resultIndex, traceID, _provider] = combinedHotel.Rooms[0].BookingCode.split("!TB!");
+                console.log({ combinedHotel });
+                const [hotelCode, resultIndex, traceId, _provider] = combinedHotel.Rooms[0].BookingCode.split("!TB!");
                 const combinedResultIndex = combinedHotel.Rooms.map((room: ITBORoom) => {
                     const [_hotelCode, resultIndex, _traceID, _provider] = room.BookingCode.split("!TB!");
                     return resultIndex;
                 }).join("|");
                 const [latitude, longitude] = combinedHotel.Map.split("|");
-                const searchID = uniqueSearchId + "|" + traceID;
                 hotelsList.push({
-                    DocumentsRequired: null,
-                    searchID,
-                    AccommodationType: null,
-                    ChainName: null,
-                    supplierID: "TBO",
+                    documentsRequired: null,
+                    searchId: traceId,
+                    accommodationType: null,
+                    chainName: null,
+                    supplierId: "TBO",
                     hotelPicture: combinedHotel.Images[0],
                     isHotDeal: false,
-                    hotelRatings: combinedHotel.HotelRating,
+                    hotelRating: combinedHotel.HotelRating,
                     code: combinedHotel.HotelCode,
                     address: combinedHotel.Address,
                     name: combinedHotel.HotelName,
@@ -66,26 +58,27 @@ class SearchService {
                     currency: combinedHotel.Currency ?? null,
                     description: combinedHotel.Description ?? null,
                     facilities: combinedHotel.HotelFacilities ?? null,
-                    totalPrice: combinedHotel.Rooms.reduce((acc: number, room: ITBORoom) => acc + room.TotalFare, 0),
+                    totalPrice: combinedHotel.Rooms[0].TotalFare,
                     resultIndex: combinedResultIndex,
                     hotelLocation: "others",
-                    Refundable: combinedHotel.Rooms[0].IsRefundable,
-                    RoomTypes: combinedHotel.Rooms.map((room, roomIdx) => ({
-                        RoomTypeCode: room.BookingCode,
-                        RoomRates: generateRoomResponse(room, hotelCode, resultIndex, roomIdx)
+                    refundable: combinedHotel.Rooms[0].IsRefundable,
+                    roomTypes: combinedHotel.Rooms.map((room, roomIdx) => ({
+                        roomTypeCode: room.BookingCode,
+                        roomRates: generateRoomResponse(room, hotelCode, resultIndex, roomIdx)
                     }))
                 })
             }
         }
         const finalResult = {
-            ContentType: "json",
-            SerializerSettings: null,
-            StatusCode: 200,
-            Value: {
+            contentType: "json",
+            serializerSettings: null,
+            statusCode: 200,
+            value: {
                 hotelSearchRQRS: {
                     hotelSearchRQ: data,
-                    hotels: {
-                        hotel: hotelsList
+                    hotelsSearchRS: {
+                        hotels: hotelsList,
+                        total: hotelsList.length
                     }
                 }
             }
