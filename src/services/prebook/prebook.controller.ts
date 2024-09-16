@@ -9,3 +9,5 @@ class PrebookController {
         }
     }
 }
+
+export default PrebookController;
