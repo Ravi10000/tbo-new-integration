@@ -1,3 +1,3 @@
-import { check, isValidDate } from "../validations.utils";
+import { check } from "../validations.utils";
 
 export const prebookValidations = []
