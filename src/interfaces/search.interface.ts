@@ -67,11 +67,7 @@ export interface ITBORoom {
     DayRates: DayRate[][];
     TotalFare: number;
     TotalTax: number;
-    CancelPolicies: {
-        FromDate: string;
-        ChargeType: string;
-        CancellationCharge: number;
-    }[];
+    CancelPolicies: ICancelPolicy[];
     RoomPromotion: string[] | undefined;
     MealType: string;
     IsRefundable: boolean;
@@ -81,7 +77,11 @@ export interface ITBORoom {
 export interface DayRate {
     BasePrice: number;
 }
-
+export interface ICancelPolicy {
+    FromDate: string;
+    ChargeType: string;
+    CancellationCharge: number;
+}
 
 export interface ITBOHotelRates {
     HotelCode: string;

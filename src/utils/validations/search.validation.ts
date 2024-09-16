@@ -1,8 +1,10 @@
-import moment from 'moment';
+// import moment from 'moment';
 import { check } from '../check.validation';
+import dayjs from 'dayjs';
 
 const isValidDate = (value: string) => {
-    return moment(value, 'YYYY-MM-DD', true).isValid();
+    // return moment(value, 'YYYY-MM-DD', true).isValid();
+    return dayjs(value, 'YYYY-MM-DD', true).isValid();;
 };
 
 export const searchValidation = [

@@ -1,4 +1,4 @@
-import { DayRate, Inclusion, ISearchRequest, IStaticHotelMap, ITBOHotelRates } from "../interfaces/search.interface";
+import { DayRate, ICancelPolicy, Inclusion, ISearchRequest, IStaticHotelMap, ITBOHotelRates } from "../interfaces/search.interface";
 import { TBOCreds } from "../middleware/inject-tbo-creds";
 import City, { ICity } from "../models/city.model";
 import StaticHotel, { IStaticHotel } from "../models/static-hotel.model";
@@ -6,6 +6,8 @@ import CustomError from "../utils/CustomError";
 import { TBO, TBO_ENDPOINTS } from "../utils/tbo.req";
 import { ITBOPaxRoom, IRoom } from "../interfaces/search.interface";
 import { IRoomRate, ITBORoom } from "../interfaces/search.interface";
+import dayjs from "dayjs";
+
 
 export async function getStaticHotels(data: ISearchRequest) {
     const city = await City.findOne<ICity | null>({ Name: new RegExp(data.destination.cityName) });
@@ -83,8 +85,7 @@ export function generateHotelCodesList(hotels: IStaticHotel[], limit: number = 1
 export function generateRoomResponse(room: ITBORoom, hotelCode: string, resultIndex: string, roomIdx: number): IRoomRate[] {
     const roomPrice = room.TotalFare / (room.Name.length);
     const roomTax = room.TotalTax / room.Name.length;
-    // const cancelPenalties = [];
-    // const cancellationFees = room.CancelPolicies.find(c => c.CancellationCharge == 100);
+    const cancelPenalties = generateCancelPenalties(room);
 
     const roomRates = room.Name.map((name: string, idx) => {
         const id = [hotelCode, resultIndex, roomIdx, idx].join("|");
@@ -138,9 +139,40 @@ export function generateRoomResponse(room: ITBORoom, hotelCode: string, resultIn
                     b2bCommercial: null
                 }
             ],
-            cancelPenalties: [], // todo: add cancel penalties
+            cancelPenalties,
             hotelComments: [],
         }
     }) as IRoomRate[];
     return roomRates;
+}
+
+export function generateCancelPenalties(room: ITBORoom) {
+    const cancelPenalties = [];
+    const fixedCharge = room.CancelPolicies.find(policy => policy.ChargeType === "Fixed");
+    if (fixedCharge) {
+        cancelPenalties.push({
+            name: "Cancellation By Date",
+            penaltyDescription: `"PenaltyDescription": "Cancellation charges : ${fixedCharge.CancellationCharge} INR will be applicable from date 9/23/2024 12:00:00 AM",
+ ${getDate(fixedCharge.FromDate).format("DD/MM/YYYY hh:mm:ss A")}`,
+            nonRefundable: !room.IsRefundable
+        })
+    }
+    const percentageCharge = room.CancelPolicies.find(policy => policy.ChargeType === "Percentage");
+    if (percentageCharge) {
+        cancelPenalties.push({
+            name: "Cancellation Fee",
+            penaltyDescription: `Cancellation charges : ${(room.TotalFare / 100) * percentageCharge.CancellationCharge} INR will be applicable from date ${getDate(percentageCharge.FromDate).format("DD/MM/YYYY hh:mm:ss A")}`,
+            nonRefundable: !room.IsRefundable
+        })
+    }
+    return cancelPenalties;
+}
+
+export function getDate(dateString: string) {
+    const [date, time] = dateString.split(" ");
+    const [day, month, year] = date.split("-");
+    console.log({ date, time, day, month, year });
+    const dayObject = dayjs(`${year}-${month}-${day}T${time}`);
+    console.log({ date: dayObject.format("DD-MM-YYYY hh:mm:ss A") });
+    return dayObject;
 }
