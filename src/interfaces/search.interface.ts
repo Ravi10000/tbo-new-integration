@@ -21,7 +21,6 @@ export interface ISearchRequest {
         credentialType: string;
         salesChannel: null | undefined | string;
         sessionId: null | undefined | string;
-        // TraceId: null | undefined | string;
     };
     typeOfTrip: string;
     destination: {

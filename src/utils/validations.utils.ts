@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import { body, param, query } from "express-validator";
 
 export function check(key: string) {
@@ -8,3 +9,7 @@ export function check(key: string) {
         default: return body(key);
     }
 }
+
+export function isValidDate(value: string) {
+    return dayjs(value, 'YYYY-MM-DD', true).isValid();;
+};

@@ -17,7 +17,7 @@ export async function getStaticHotels(data: ISearchRequest) {
     const query: { [key: string]: any } = { CityId: city.Code };
     if (data.starRating) query.HotelRating = data.starRating;
 
-    const staticHotels = await StaticHotel.find(query).limit(50);
+    const staticHotels = await StaticHotel.find(query).limit(50); // !temp
     const staticHotelsMap: IStaticHotelMap = staticHotels.reduce(
         (acc: IStaticHotelMap, hotel) => { acc[hotel.HotelCode] = hotel.toObject(); return acc; },
         {});
@@ -152,8 +152,7 @@ export function generateCancelPenalties(room: ITBORoom) {
     if (fixedCharge) {
         cancelPenalties.push({
             name: "Cancellation By Date",
-            penaltyDescription: `"PenaltyDescription": "Cancellation charges : ${fixedCharge.CancellationCharge} INR will be applicable from date 9/23/2024 12:00:00 AM",
- ${getDate(fixedCharge.FromDate).format("DD/MM/YYYY hh:mm:ss A")}`,
+            penaltyDescription: `Cancellation charges : ${fixedCharge.CancellationCharge} INR will be applicable from date ${getDate(fixedCharge.FromDate).format("DD/MM/YYYY hh:mm:ss A")}`,
             nonRefundable: !room.IsRefundable
         })
     }
@@ -163,6 +162,13 @@ export function generateCancelPenalties(room: ITBORoom) {
             name: "Cancellation Fee",
             penaltyDescription: `Cancellation charges : ${(room.TotalFare / 100) * percentageCharge.CancellationCharge} INR will be applicable from date ${getDate(percentageCharge.FromDate).format("DD/MM/YYYY hh:mm:ss A")}`,
             nonRefundable: !room.IsRefundable
+        })
+    }
+    if (!room.IsRefundable) {
+        cancelPenalties.push({
+            name: "Non-Refundable",
+            penaltyDescription: "Booking is non refundable",
+            nonRefundable: true
         })
     }
     return cancelPenalties;
