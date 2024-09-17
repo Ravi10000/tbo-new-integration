@@ -6,6 +6,7 @@ export const detailsValidations = [
         .withMessage("invalid check in date, valid format YYYY-MM-DD"),
     check('checkOut').custom(isValidDate)
         .withMessage("invalid check out date, valid format YYYY-MM-DD"),
+    check("authentication").notEmpty().withMessage("missing authentication details"),
     check("authentication.companyId").notEmpty().withMessage("invalid authentication.companyId"),
     check("authentication.credentialId").notEmpty().withMessage("invalid authentication.credentialId"),
     check("authentication.credentialPassword").notEmpty().withMessage("invalid authentication.credentialPassword"),

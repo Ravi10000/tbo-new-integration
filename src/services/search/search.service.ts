@@ -31,6 +31,7 @@ class SearchService {
                     ...hotel,
                 } as ITBOCombinedHotelDetails;
                 console.log({ combinedHotel });
+
                 const [hotelCode, resultIndex, traceId, _provider] = combinedHotel.Rooms[0].BookingCode.split("!TB!");
                 const combinedResultIndex = combinedHotel.Rooms.map((room: ITBORoom) => {
                     const [_hotelCode, resultIndex, _traceID, _provider] = room.BookingCode.split("!TB!");
@@ -57,7 +58,10 @@ class SearchService {
                     maxRate: null,
                     currency: combinedHotel.Currency ?? null,
                     description: combinedHotel.Description ?? null,
-                    facilities: combinedHotel.HotelFacilities ?? null,
+                    facilities: combinedHotel.HotelFacilities ? combinedHotel.HotelFacilities.map(facility => ({
+                        amenityType: facility,
+                        description: facility
+                    })) : null,
                     totalPrice: combinedHotel.Rooms[0].TotalFare,
                     resultIndex: combinedResultIndex,
                     hotelLocation: "others",

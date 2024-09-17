@@ -190,10 +190,14 @@ export interface IHotelResponse {
     maxRate: null | number;
     currency: null | string;
     description: null | string;
-    facilities: null | string[];
+    facilities: null | IFacility[];
     totalPrice: number;
     resultIndex: string;
     hotelLocation: string;
     refundable: boolean;
     roomTypes: IRoomType[];
+}
+export interface IFacility {
+    amenityType: string;
+    description: string;
 }

@@ -17,7 +17,7 @@ export async function getStaticHotels(data: ISearchRequest) {
     const query: { [key: string]: any } = { CityId: city.Code };
     if (data.starRating) query.HotelRating = data.starRating;
 
-    const staticHotels = await StaticHotel.find(query).limit(50); // !temp
+    const staticHotels = await StaticHotel.find(query).limit(100); // !temp limit
     const staticHotelsMap: IStaticHotelMap = staticHotels.reduce(
         (acc: IStaticHotelMap, hotel) => { acc[hotel.HotelCode] = hotel.toObject(); return acc; },
         {});
@@ -68,7 +68,7 @@ export function generatePaxRooms(rooms: IRoom[]): ITBOPaxRoom[] {
     }
     return PaxRooms;
 }
-export function generateHotelCodesList(hotels: IStaticHotel[], limit: number = 100) {
+export function generateHotelCodesList(hotels: IStaticHotel[], limit = 100) {
     let [from, to] = [0, limit];
     const hotelCodeList: string[] = [];
     do {
