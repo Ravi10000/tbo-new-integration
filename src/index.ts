@@ -8,6 +8,17 @@ import errorHandler from './middleware/errorHandler';
 import detailsRoutes from "../src/services/details/details.routes"
 import prebookRoutes from "../src/services/prebook/prebook.routes"
 dotenv.config();
+import { encrypt, decrypt } from './utils/aes-encryption';
+const encryptedUsername = encrypt("Allfour");
+const username = decrypt(encryptedUsername);
+console.log({
+    encryptedUsername,
+    username,
+    encryptedPassword: encrypt("Allfour@1234"),
+    password: decrypt(encrypt("Allfour@1234")),
+    encryptedTokenId: encrypt("15099cf5-d6c5-4f45-9048-782da3f9b9b9"),
+    tokenId: decrypt(encrypt("15099cf5-d6c5-4f45-9048-782da3f9b9b9"))
+})
 // Load environment variables
 
 const app = express();

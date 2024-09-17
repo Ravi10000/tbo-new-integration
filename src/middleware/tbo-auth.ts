@@ -16,13 +16,17 @@ export async function tboAuth(req: RequestTBO, res: Response, next: NextFunction
     try {
         const creds = await TBOCredential.findOne({ companyId: req.body.authentication.companyId });
         if (!creds) throw new CustomError("no TBO credentials found for given company id", 403);
+        console.log({ creds });
         req.TBO = {
             USERNAME: creds.username,
             PASSWORD: creds.password,
         }
         const isTokenValid = !creds.tokenValidTillDateTime
             ? false
-            : dayjs(creds.tokenValidTillDateTime).isBefore(dayjs().subtract(5, "minutes"));
+            : !dayjs(creds.tokenValidTillDateTime).isBefore(dayjs().subtract(5, "minutes"));
+
+        console.log({ isTokenValid });
+
         if (!isTokenValid) {
             const { tokenId } = await getTBOAuthToken(creds.username, creds.password);
             if (!tokenId) throw new CustomError("error fetching TBO auth token", 500);

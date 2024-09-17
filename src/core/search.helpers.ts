@@ -11,7 +11,7 @@ import dayjs from "dayjs";
 
 export async function getStaticHotels(data: ISearchRequest) {
     const city = await City.findOne<ICity | null>({ Name: new RegExp(data.destination.cityName) });
-    console.log({ city });
+    // console.log({ city });
 
     if (!city) throw new CustomError("city not found", 404);
     const query: { [key: string]: any } = { CityId: city.Code };
@@ -72,9 +72,9 @@ export function generateHotelCodesList(hotels: IStaticHotel[], limit = 100) {
     let [from, to] = [0, limit];
     const hotelCodeList: string[] = [];
     do {
-        console.log({ from, to });
+        // console.log({ from, to });
         const codes = hotels.slice(from, to).map(hotel => hotel.HotelCode).join(",");
-        console.log({ codes });
+        // console.log({ codes });
         hotelCodeList.push(codes);
         from = to;
         to = Math.min(hotels.length, (to + limit));
@@ -147,38 +147,35 @@ export function generateRoomResponse(room: ITBORoom, hotelCode: string, resultIn
 }
 
 export function generateCancelPenalties(room: ITBORoom) {
-    const cancelPenalties = [];
-    const fixedCharge = room.CancelPolicies.find(policy => policy.ChargeType === "Fixed");
-    if (fixedCharge) {
-        cancelPenalties.push({
-            name: "Cancellation By Date",
-            penaltyDescription: `Cancellation charges : ${fixedCharge.CancellationCharge} INR will be applicable from date ${getDate(fixedCharge.FromDate).format("DD/MM/YYYY hh:mm:ss A")}`,
-            nonRefundable: !room.IsRefundable
-        })
-    }
-    const percentageCharge = room.CancelPolicies.find(policy => policy.ChargeType === "Percentage");
-    if (percentageCharge) {
-        cancelPenalties.push({
-            name: "Cancellation Fee",
-            penaltyDescription: `Cancellation charges : ${(room.TotalFare / 100) * percentageCharge.CancellationCharge} INR will be applicable from date ${getDate(percentageCharge.FromDate).format("DD/MM/YYYY hh:mm:ss A")}`,
-            nonRefundable: !room.IsRefundable
-        })
-    }
     if (!room.IsRefundable) {
-        cancelPenalties.push({
+        return [{
             name: "Non-Refundable",
             penaltyDescription: "Booking is non refundable",
             nonRefundable: true
-        })
+        }]
     }
+    const cancelPenalties = room.CancelPolicies.map(policy => {
+        const penalty = policy.ChargeType === "Percentage" ? (room.TotalFare / 100) * policy.CancellationCharge : policy.CancellationCharge;
+        return {
+            name: "Cancellation Fee",
+            penaltyDescription: `Cancellation charges : ${penalty} INR will be applicable from date ${getDate(policy.FromDate).format("DD/MM/YYYY hh:mm:ss A")}`,
+            nonRefundable: !room.IsRefundable
+        }
+    });
     return cancelPenalties;
 }
 
 export function getDate(dateString: string) {
     const [date, time] = dateString.split(" ");
     const [day, month, year] = date.split("-");
-    console.log({ date, time, day, month, year });
+    // console.log({ date, time, day, month, year });
     const dayObject = dayjs(`${year}-${month}-${day}T${time}`);
-    console.log({ date: dayObject.format("DD-MM-YYYY hh:mm:ss A") });
+    // console.log({ date: dayObject.format("DD-MM-YYYY hh:mm:ss A") });
     return dayObject;
+}
+
+export function latLng(latLngString: string) {
+    const location = latLngString.split("|");
+    if (!location.length) return [null, null];
+    return [Number(location[0]), Number(location[1])];
 }

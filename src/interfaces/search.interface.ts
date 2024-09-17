@@ -200,8 +200,8 @@ export interface IHotelResponse {
     name: string;
     categoryCode: string;
     categoryName: string;
-    latitude: string;
-    longitude: string;
+    latitude: number | null;
+    longitude: number | null;
     minRate: null | number;
     maxRate: null | number;
     currency: null | string;

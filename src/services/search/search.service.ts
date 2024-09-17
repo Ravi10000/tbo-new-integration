@@ -1,6 +1,6 @@
 import { ISearchRequest, ITBORoom, ITBOCombinedHotelDetails, IHotelResponse } from '../../interfaces/search.interface';
 import { ITBOCreds } from '../../middleware/tbo-auth';
-import { generatePaxRooms, generateRoomResponse } from '../../core/search.helpers';
+import { generatePaxRooms, generateRoomResponse, latLng } from '../../core/search.helpers';
 import { filterHotelsByPriceRange, getHotelsFare, getStaticHotels } from '../../core/search.helpers';
 
 class SearchService {
@@ -37,7 +37,7 @@ class SearchService {
                     const [_hotelCode, resultIndex, _traceID, _provider] = room.BookingCode.split("!TB!");
                     return resultIndex;
                 }).join("|");
-                const [latitude, longitude] = combinedHotel.Map.split("|");
+                const [latitude, longitude] = latLng(combinedHotel.Map ?? "");
                 hotelsList.push({
                     documentsRequired: null,
                     searchId: traceId,

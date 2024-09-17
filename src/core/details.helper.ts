@@ -3,7 +3,7 @@ import { ITBOHotelDetails, ITBOHotelRates } from "../interfaces/search.interface
 import { ITBOCreds } from "../middleware/tbo-auth";
 import CustomError from "../utils/CustomError";
 import { TBO, TBO_ENDPOINTS } from "../utils/tbo.req";
-import { generatePaxRooms, generateRoomResponse } from "./search.helpers";
+import { generatePaxRooms, generateRoomResponse, latLng } from "./search.helpers";
 
 export async function getHotelDetails(hotelCode: string, request: IDetailsRequest, credentials: ITBOCreds) {
     const { data } = await TBO.post(TBO_ENDPOINTS.HOTEL_DETAILS, {
@@ -32,7 +32,9 @@ export async function getHotelDetails(hotelCode: string, request: IDetailsReques
         throw new CustomError("Error Fetching Hotel Details", 500);
     const hotel = data.HotelDetails[0] as ITBOHotelDetails;
     const fareRate = fareRates.HotelResult[0] as ITBOHotelRates;
-    const [latitude, longitude] = hotel.Map;
+    const [latitude, longitude] = latLng(hotel.Map ?? "");
+    console.log({ latLng: hotel.Map });
+
     const hotelDetails = {
         checkInTime: hotel.CheckInTime,
         checkOutTime: hotel.CheckOutTime,
