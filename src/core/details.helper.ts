@@ -1,11 +1,11 @@
 import { IDetailsRequest } from "../interfaces/details.interface";
 import { ITBOHotelDetails, ITBOHotelRates } from "../interfaces/search.interface";
-import { TBOCreds } from "../middleware/tbo-auth";
+import { ITBOCreds } from "../middleware/tbo-auth";
 import CustomError from "../utils/CustomError";
 import { TBO, TBO_ENDPOINTS } from "../utils/tbo.req";
 import { generatePaxRooms, generateRoomResponse } from "./search.helpers";
 
-export async function getHotelDetails(hotelCode: string, request: IDetailsRequest, credentials: TBOCreds) {
+export async function getHotelDetails(hotelCode: string, request: IDetailsRequest, credentials: ITBOCreds) {
     const { data } = await TBO.post(TBO_ENDPOINTS.HOTEL_DETAILS, {
         HotelCodes: hotelCode.toString(),
         Language: "EN"

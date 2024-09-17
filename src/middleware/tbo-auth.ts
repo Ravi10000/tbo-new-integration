@@ -5,9 +5,9 @@ import dayjs from "dayjs";
 import { getTBOAuthToken } from "../core/auth.helper";
 import { check } from "../utils/validations.utils";
 export interface RequestTBO extends Request {
-    TBO?: TBOCreds;
+    TBO?: ITBOCreds;
 }
-export interface TBOCreds {
+export interface ITBOCreds {
     USERNAME: string;
     PASSWORD: string;
     TOKEN_ID?: string;

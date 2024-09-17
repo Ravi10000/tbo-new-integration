@@ -12,16 +12,17 @@ export interface IGuest {
 export interface IStaticHotelMap {
     [key: string]: IStaticHotel;
 }
+export interface IAuthentication {
+    companyId: string;
+    credentialId: string;
+    credentialPassword: string;
+    credentialType: string;
+    salesChannel: null | undefined | string;
+    sessionId: null | undefined | string;
+}
 export interface ISearchRequest {
     rooms: IRoom[];
-    authentication: {
-        companyId: string;
-        credentialId: string;
-        credentialPassword: string;
-        credentialType: string;
-        salesChannel: null | undefined | string;
-        sessionId: null | undefined | string;
-    };
+    authentication: IAuthentication;
     typeOfTrip: string;
     destination: {
         location: null | undefined | string;
@@ -131,18 +132,33 @@ export interface IRoomRate {
     roomDescription: null;
     roomReference: null;
     images: null;
-    guests: [];
+    guests: IGuestDetail[];
     rates: IRateObject[];
-    cancelPenalties: CancelPenalty[];
-    inclusions: Inclusion[] | null;
+    cancelPenalties: ICancelPenalty[];
+    inclusions: IInclusion[] | null;
     hotelComments: string[];
 }
-export interface CancelPenalty {
+
+export interface IGuestDetail {
+    title: string | null;
+    firstName: string | null;
+    middleName: string | null;
+    lastName: string | null;
+    guestType: string | null;
+    age: number | null;
+    address: string | null;
+    contactNumber: string | null;
+    email: string | null;
+    countryName: string | null;
+    panNumber: string | null;
+
+}
+export interface ICancelPenalty {
     name: string;
     penaltyDescription: string;
     nonRefundable: boolean;
 }
-export interface Inclusion {
+export interface IInclusion {
     boardingDetails: null | string;
     inclusionDescription: string;
 }

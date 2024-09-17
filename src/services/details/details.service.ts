@@ -1,9 +1,9 @@
 import { getHotelDetails } from "../../core/details.helper";
 import { IDetailsRequest } from "../../interfaces/details.interface";
-import { TBOCreds } from "../../middleware/tbo-auth";
+import { ITBOCreds } from "../../middleware/tbo-auth";
 
 class DetailsService {
-    static async getDetails(data: IDetailsRequest, creds: TBOCreds) {
+    static async getDetails(data: IDetailsRequest, creds: ITBOCreds) {
         const result = await getHotelDetails(data.hotelCode, data, creds);
         return result;
     }

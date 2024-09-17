@@ -1,10 +1,10 @@
 import { ISearchRequest, ITBORoom, ITBOCombinedHotelDetails, IHotelResponse } from '../../interfaces/search.interface';
-import { TBOCreds } from '../../middleware/tbo-auth';
+import { ITBOCreds } from '../../middleware/tbo-auth';
 import { generatePaxRooms, generateRoomResponse } from '../../core/search.helpers';
 import { filterHotelsByPriceRange, getHotelsFare, getStaticHotels } from '../../core/search.helpers';
 
 class SearchService {
-    static async search(data: ISearchRequest, credentials: TBOCreds) {
+    static async search(data: ISearchRequest, credentials: ITBOCreds) {
         const { staticHotelsMap, hotelCodeList } = await getStaticHotels(data)
         const PaxRooms = generatePaxRooms(data.rooms);
         const hotelsList: IHotelResponse[] = [];

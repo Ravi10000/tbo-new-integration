@@ -1,5 +1,5 @@
-import { DayRate, ICancelPolicy, Inclusion, ISearchRequest, IStaticHotelMap, ITBOHotelRates } from "../interfaces/search.interface";
-import { TBOCreds } from "../middleware/tbo-auth";
+import { DayRate, ICancelPolicy, IInclusion, ISearchRequest, IStaticHotelMap, ITBOHotelRates } from "../interfaces/search.interface";
+import { ITBOCreds } from "../middleware/tbo-auth";
 import City, { ICity } from "../models/city.model";
 import StaticHotel, { IStaticHotel } from "../models/static-hotel.model";
 import CustomError from "../utils/CustomError";
@@ -25,7 +25,7 @@ export async function getStaticHotels(data: ISearchRequest) {
     return { staticHotelsMap, hotelCodeList }
 }
 
-export async function getHotelsFare(requestBody: any, credentials: TBOCreds): Promise<ITBOHotelRates[]> {
+export async function getHotelsFare(requestBody: any, credentials: ITBOCreds): Promise<ITBOHotelRates[]> {
     const { data } = await TBO.post(TBO_ENDPOINTS.HOTEL_SEARCH, requestBody, {
         auth: {
             username: credentials.USERNAME,
@@ -101,7 +101,7 @@ export function generateRoomResponse(room: ITBORoom, hotelCode: string, resultIn
             inclusions: room.Inclusion ? room.Inclusion.split(",").map((inclusion: string) => ({
                 boardingDetails: null,
                 inclusionDescription: inclusion
-            })) as Inclusion[] : null,
+            })) as IInclusion[] : null,
             rates: [
                 {
                     totalPrice: roomPrice,

@@ -5,5 +5,5 @@ import PrebookController from "./prebook.controller";
 import { prebookValidations } from "../../utils/validations/prebook.validation";
 const router = Router();
 
-router.post("/prebook", prebookValidations, validateRequest, tboAuth, PrebookController.prebook)
+router.post("/pre-book", prebookValidations, validateRequest, tboAuth, PrebookController.prebook)
 export default router;
