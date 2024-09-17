@@ -1,5 +1,5 @@
 import { Response, NextFunction } from "express"
-import { RequestTBO } from '../../middleware/inject-tbo-creds';
+import { RequestTBO } from '../../middleware/tbo-auth';
 
 class PrebookController {
     static async prebook(req: RequestTBO, res: Response, next: NextFunction) {

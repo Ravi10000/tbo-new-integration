@@ -1,6 +1,6 @@
 import { Response, NextFunction } from 'express';
 import SearchService from './search.service';
-import { RequestTBO } from '../../middleware/inject-tbo-creds';
+import { RequestTBO } from '../../middleware/tbo-auth';
 import CustomError from '../../utils/CustomError';
 
 class SearchController {
@@ -20,5 +20,4 @@ class SearchController {
         }
     }
 }
-
 export default SearchController;

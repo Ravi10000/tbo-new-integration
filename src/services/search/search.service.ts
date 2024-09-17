@@ -1,5 +1,5 @@
 import { ISearchRequest, ITBORoom, ITBOCombinedHotelDetails, IHotelResponse } from '../../interfaces/search.interface';
-import { TBOCreds } from '../../middleware/inject-tbo-creds';
+import { TBOCreds } from '../../middleware/tbo-auth';
 import { generatePaxRooms, generateRoomResponse } from '../../core/search.helpers';
 import { filterHotelsByPriceRange, getHotelsFare, getStaticHotels } from '../../core/search.helpers';
 

@@ -1,13 +1,11 @@
-import { seedAirports } from './airport.seeder';
-import { seedAirlines } from './airline.seeder';
 
 const seedDatabase = async () => {
   try {
     console.log('Seeding Airports...');
-    await seedAirports();
+    // await seedAirports();
 
     console.log('Seeding Airlines...');
-    await seedAirlines();
+    // await seedAirlines();
 
     console.log('Database seeding completed');
   } catch (error) {

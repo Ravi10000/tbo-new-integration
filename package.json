@@ -1,10 +1,10 @@
 {
-  "name": "API-Gateway",
+  "name": "tbo-hotel-api",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --watch 'src/**/*.ts' --exec 'ts-node src/index.ts'",
-    "dev": "nodemon ts-node src/index.ts"
+    "start": "ts-node src/index.ts",
+    "dev": "nodemon ts-node src/index.ts --watch 'src/**/*.ts'"
   },
   "keywords": [],
   "author": "",

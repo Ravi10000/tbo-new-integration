@@ -1,5 +1,5 @@
 import { DayRate, ICancelPolicy, Inclusion, ISearchRequest, IStaticHotelMap, ITBOHotelRates } from "../interfaces/search.interface";
-import { TBOCreds } from "../middleware/inject-tbo-creds";
+import { TBOCreds } from "../middleware/tbo-auth";
 import City, { ICity } from "../models/city.model";
 import StaticHotel, { IStaticHotel } from "../models/static-hotel.model";
 import CustomError from "../utils/CustomError";

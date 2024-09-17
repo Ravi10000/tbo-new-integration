@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { injectTBOCredentials } from "../../middleware/inject-tbo-creds";
+import { tboAuth } from "../../middleware/tbo-auth";
 import { validateRequest } from "../../middleware/validateRequest";
 import PrebookController from "./prebook.controller";
 import { prebookValidations } from "../../utils/validations/prebook.validation";
 const router = Router();
 
-router.post("/prebook", injectTBOCredentials, prebookValidations, validateRequest, PrebookController.prebook)
+router.post("/prebook", prebookValidations, validateRequest, tboAuth, PrebookController.prebook)
 export default router;

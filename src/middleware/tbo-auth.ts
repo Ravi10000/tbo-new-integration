@@ -3,6 +3,7 @@ import TBOCredential from "../models/tbo-credential.model";
 import CustomError from "../utils/CustomError";
 import dayjs from "dayjs";
 import { getTBOAuthToken } from "../core/auth.helper";
+import { check } from "../utils/validations.utils";
 export interface RequestTBO extends Request {
     TBO?: TBOCreds;
 }
@@ -11,7 +12,7 @@ export interface TBOCreds {
     PASSWORD: string;
     TOKEN_ID?: string;
 }
-export async function injectTBOCredentials(req: RequestTBO, res: Response, next: NextFunction) {
+export async function tboAuth(req: RequestTBO, res: Response, next: NextFunction) {
     try {
         const creds = await TBOCredential.findOne({ companyId: req.body.authentication.companyId });
         if (!creds) throw new CustomError("no TBO credentials found for given company id", 403);
@@ -35,3 +36,11 @@ export async function injectTBOCredentials(req: RequestTBO, res: Response, next:
         console.log({ err })
     }
 }
+
+export const tboAuthValidations = [
+    check("authentication").notEmpty().withMessage("missing authentication details"),
+    check("authentication.companyId").notEmpty().withMessage("invalid authentication.companyId"),
+    check("authentication.credentialId").notEmpty().withMessage("invalid authentication.credentialId"),
+    check("authentication.credentialPassword").notEmpty().withMessage("invalid authentication.credentialPassword"),
+    check("authentication.credentialType").notEmpty().withMessage("invalid authentication.credentialType"),
+]

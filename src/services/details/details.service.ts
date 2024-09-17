@@ -1,6 +1,6 @@
 import { getHotelDetails } from "../../core/details.helper";
 import { IDetailsRequest } from "../../interfaces/details.interface";
-import { TBOCreds } from "../../middleware/inject-tbo-creds";
+import { TBOCreds } from "../../middleware/tbo-auth";
 
 class DetailsService {
     static async getDetails(data: IDetailsRequest, creds: TBOCreds) {

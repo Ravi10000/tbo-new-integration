@@ -1,6 +1,6 @@
 import { IDetailsRequest } from "../interfaces/details.interface";
 import { ITBOHotelDetails, ITBOHotelRates } from "../interfaces/search.interface";
-import { TBOCreds } from "../middleware/inject-tbo-creds";
+import { TBOCreds } from "../middleware/tbo-auth";
 import CustomError from "../utils/CustomError";
 import { TBO, TBO_ENDPOINTS } from "../utils/tbo.req";
 import { generatePaxRooms, generateRoomResponse } from "./search.helpers";

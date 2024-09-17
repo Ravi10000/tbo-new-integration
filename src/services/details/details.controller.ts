@@ -1,5 +1,5 @@
 import { Response, NextFunction } from 'express'
-import { RequestTBO } from "../../middleware/inject-tbo-creds"
+import { RequestTBO } from "../../middleware/tbo-auth"
 import DetailsService from './details.service';
 import CustomError from '../../utils/CustomError';
 class DetailsController {
