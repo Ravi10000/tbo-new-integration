@@ -39,7 +39,8 @@ export async function tboAuth(req: RequestTBO, res: Response, next: NextFunction
         req.TBO.TOKEN_ID = creds.tokenId;
         next();
     } catch (err) {
-        console.log({ err })
+        console.log({ err });
+        next(err);
     }
 }
 

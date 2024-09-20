@@ -76,15 +76,15 @@ class SearchService {
             contentType: "json",
             serializerSettings: null,
             statusCode: 200,
-            value: {
-                hotelSearchRQRS: {
-                    hotelSearchRQ: data,
-                    hotelsSearchRS: {
-                        hotels: hotelsList,
-                        total: hotelsList.length
-                    }
-                }
+            // result: {
+            // hotelSearchRQRS: {
+            // hotelSearchRQ: data,
+            hotelsSearchRS: {
+                hotels: hotelsList,
+                total: hotelsList.length
             }
+            // }
+            // }
         };
         return finalResult;
     }
