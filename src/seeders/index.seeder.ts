@@ -1,11 +1,17 @@
+import { MongoUrl } from "../config/config";
+import { connectionMongoDb } from "../config/connection";
+import { countriesAndCitiesSeeder } from "./city.seeder";
+import { hotelSeeder } from "./hotel.seeder";
 
 const seedDatabase = async () => {
   try {
-    console.log('Seeding Airports...');
-    // await seedAirports();
+    await connectionMongoDb(MongoUrl());
 
-    console.log('Seeding Airlines...');
-    // await seedAirlines();
+    console.log('Seeding Countries and Cities...');
+    await countriesAndCitiesSeeder();
+
+    console.log('Seeding Hotels...');
+    await hotelSeeder();
 
     console.log('Database seeding completed');
   } catch (error) {

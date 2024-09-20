@@ -1,7 +1,7 @@
 import { ISearchRequest, ITBORoom, ITBOCombinedHotelDetails, IHotelResponse } from '../../interfaces/search.interface';
 import { ITBOCreds } from '../../middleware/tbo-auth';
 import { generatePaxRooms, generateRoomResponse, latLng } from '../../core/search.helpers';
-import { filterHotelsByPriceRange, getHotelsFare, getStaticHotels } from '../../core/search.helpers';
+import { filterHotelsByPriceRange, getHotelsRates, getStaticHotels } from '../../core/search.helpers';
 
 class SearchService {
     static async search(data: ISearchRequest, credentials: ITBOCreds) {
@@ -17,10 +17,11 @@ class SearchService {
                 PaxRooms,
                 IsDetailedResponse: true,
                 Filters: {
-                    NoOfRooms: 0, // 1 or 0 | corresponds to the no. of room combinations and not no. of rooms
+                    NoOfRooms: 1,
+                    // 1 or 0 | 0 for multiple room combinations and 1 for only one room combination
                 }
             };
-            const hotelRates = await getHotelsFare(requestBody, credentials);
+            const hotelRates = await getHotelsRates(requestBody, credentials);
             const filteredHotels = filterHotelsByPriceRange(hotelRates, data.budgetAmountFrom, data.budgetAmountTo);
 
             for (let hotel of filteredHotels) {
@@ -30,8 +31,6 @@ class SearchService {
                     ...staticHotelDetails,
                     ...hotel,
                 } as ITBOCombinedHotelDetails;
-                console.log({ combinedHotel });
-
                 const [hotelCode, resultIndex, traceId, _provider] = combinedHotel.Rooms[0].BookingCode.split("!TB!");
                 const combinedResultIndex = combinedHotel.Rooms.map((room: ITBORoom) => {
                     const [_hotelCode, resultIndex, _traceID, _provider] = room.BookingCode.split("!TB!");

@@ -7,11 +7,16 @@ class PrebookController {
     static async prebook(req: RequestTBO, res: Response, next: NextFunction) {
         try {
             if (!req.TBO) throw new CustomError("missing TBO credentials", 500);
-            const result = await PrebookService.prebook(req.body, req.TBO);
+            const availability = await PrebookService.prebook(req.body, req.TBO);
             res.status(200).json({
                 status: "success",
                 message: "prebook response",
-                result
+                value: {
+                    preBookRQ: req.body,
+                    preBookRS: {
+                        availabilityType: availability,
+                    }
+                }
             })
         } catch (err) {
             console.log(err);

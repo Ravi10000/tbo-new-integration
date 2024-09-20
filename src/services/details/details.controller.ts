@@ -9,6 +9,7 @@ class DetailsController {
             const result = await DetailsService.getDetails(req.body, req.TBO);
             res.json({
                 status: "success",
+                message: "hotel details fetched successfully",
                 result,
             })
         } catch (err) {

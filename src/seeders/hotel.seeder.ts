@@ -1,11 +1,11 @@
-import { MongoUrl } from "../config/config";
-import { connectionMongoDb } from "../config/connection";
+// import { MongoUrl } from "../config/config";
+// import { connectionMongoDb } from "../config/connection";
 import StaticHotel from "../models/static-hotel.model";
 import { TBO, TBO_ENDPOINTS } from "../utils/tbo.req";
 
 export async function hotelSeeder() {
     try {
-        await connectionMongoDb(MongoUrl());
+        // await connectionMongoDb(MongoUrl());
         const doesHotelsExits = await StaticHotel.exists({});
         if (doesHotelsExits) throw new Error("Static Hotel already exists");
         const { data: hotelCodesResponse } = await TBO.post(TBO_ENDPOINTS.TBO_HOTEL_CODES, { CityCode: "130443", IsDetailedResponse: false });

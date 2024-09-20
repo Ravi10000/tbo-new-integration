@@ -11,8 +11,6 @@ import dayjs from "dayjs";
 
 export async function getStaticHotels(data: ISearchRequest) {
     const city = await City.findOne<ICity | null>({ Name: new RegExp(data.destination.cityName) });
-    // console.log({ city });
-
     if (!city) throw new CustomError("city not found", 404);
     const query: { [key: string]: any } = { CityId: city.Code };
     if (data.starRating) query.HotelRating = data.starRating;
@@ -25,7 +23,7 @@ export async function getStaticHotels(data: ISearchRequest) {
     return { staticHotelsMap, hotelCodeList }
 }
 
-export async function getHotelsFare(requestBody: any, credentials: ITBOCreds): Promise<ITBOHotelRates[]> {
+export async function getHotelsRates(requestBody: any, credentials: ITBOCreds): Promise<ITBOHotelRates[]> {
     const { data } = await TBO.post(TBO_ENDPOINTS.HOTEL_SEARCH, requestBody, {
         auth: {
             username: credentials.USERNAME,
@@ -72,9 +70,7 @@ export function generateHotelCodesList(hotels: IStaticHotel[], limit = 100) {
     let [from, to] = [0, limit];
     const hotelCodeList: string[] = [];
     do {
-        // console.log({ from, to });
         const codes = hotels.slice(from, to).map(hotel => hotel.HotelCode).join(",");
-        // console.log({ codes });
         hotelCodeList.push(codes);
         from = to;
         to = Math.min(hotels.length, (to + limit));
@@ -88,7 +84,7 @@ export function generateRoomResponse(room: ITBORoom, hotelCode: string, resultIn
     const cancelPenalties = generateCancelPenalties(room);
 
     const roomRates = room.Name.map((name: string, idx) => {
-        const id = [hotelCode, resultIndex, roomIdx, idx].join("|");
+        const id = [hotelCode, resultIndex, roomIdx, idx + 1].join("|");
         const basePrice = room.DayRates[idx].reduce((acc: number, dayRate: DayRate) => acc + dayRate.BasePrice, 0);
         return {
             roomId: id,
@@ -168,9 +164,7 @@ export function generateCancelPenalties(room: ITBORoom) {
 export function getDate(dateString: string) {
     const [date, time] = dateString.split(" ");
     const [day, month, year] = date.split("-");
-    // console.log({ date, time, day, month, year });
     const dayObject = dayjs(`${year}-${month}-${day}T${time}`);
-    // console.log({ date: dayObject.format("DD-MM-YYYY hh:mm:ss A") });
     return dayObject;
 }
 

@@ -1,12 +1,12 @@
-import { MongoUrl } from "../config/config";
-import { connectionMongoDb } from "../config/connection";
+// import { MongoUrl } from "../config/config";
+// import { connectionMongoDb } from "../config/connection";
 import City from "../models/city.model";
 import Country from "../models/country.model";
 import { TBO, TBO_ENDPOINTS } from "../utils/tbo.req";
 
 export async function countriesAndCitiesSeeder() {
     try {
-        await connectionMongoDb(MongoUrl());
+        // await connectionMongoDb(MongoUrl());
         const cityCount = await City.countDocuments();
         if (cityCount > 0)
             throw new Error("cities already exists");
