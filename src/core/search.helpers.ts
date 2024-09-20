@@ -24,7 +24,7 @@ export async function getStaticHotels(data: ISearchRequest) {
 }
 
 export async function getHotelsRates(requestBody: any, credentials: ITBOCreds): Promise<ITBOHotelRates[]> {
-    const { data } = await TBO.post(TBO_ENDPOINTS.HOTEL_SEARCH, requestBody, {
+    const { data } = await TBO.post(TBO_ENDPOINTS[credentials.TYPE].HOTEL_SEARCH, requestBody, {
         auth: {
             username: credentials.USERNAME,
             password: credentials.PASSWORD

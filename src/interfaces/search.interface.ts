@@ -16,7 +16,7 @@ export interface IAuthentication {
     companyId: string;
     credentialId: string;
     credentialPassword: string;
-    credentialType: string;
+    credentialType: "TEST" | "LIVE";
     salesChannel: null | undefined | string;
     sessionId: null | undefined | string;
 }

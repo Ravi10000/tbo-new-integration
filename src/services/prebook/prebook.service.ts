@@ -5,7 +5,7 @@ import { TBO, TBO_ENDPOINTS } from "../../utils/tbo.req";
 class PrebookService {
     static async prebook(data: IPrebookRequest, creds: ITBOCreds) {
         const bookingCode = data.roomDetails[0].roomTypes.roomTypeCode;
-        const { data: response } = await TBO.post(TBO_ENDPOINTS.PRE_BOOK, {
+        const { data: response } = await TBO.post(TBO_ENDPOINTS[creds.TYPE].PRE_BOOK, {
             BookingCode: bookingCode,
             PaymentMode: "Limit"
         }, {

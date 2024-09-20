@@ -1,8 +1,7 @@
 import { TBO, TBO_ENDPOINTS } from "../utils/tbo.req";
-
-export async function getTBOAuthToken(username: string, password: string) {
+export async function getTBOAuthToken(username: string, password: string, env: "TEST" | "LIVE") {
     try {
-        const { data } = await TBO.post(TBO_ENDPOINTS.AUTHENTICATE, {
+        const { data } = await TBO.post(TBO_ENDPOINTS[env].AUTHENTICATE, {
             ClientId: "ApiIntegrationNew",
             UserName: username,
             Password: password,

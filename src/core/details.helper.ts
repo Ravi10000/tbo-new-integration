@@ -6,7 +6,7 @@ import { TBO, TBO_ENDPOINTS } from "../utils/tbo.req";
 import { generatePaxRooms, generateRoomResponse, latLng } from "./search.helpers";
 
 export async function getHotelDetails(hotelCode: string, request: IDetailsRequest, credentials: ITBOCreds) {
-    const { data } = await TBO.post(TBO_ENDPOINTS.HOTEL_DETAILS, {
+    const { data } = await TBO.post(TBO_ENDPOINTS[credentials.TYPE].HOTEL_DETAILS, {
         HotelCodes: hotelCode.toString(),
         Language: "EN"
     });
@@ -21,7 +21,7 @@ export async function getHotelDetails(hotelCode: string, request: IDetailsReques
             NoOfRooms: 0
         }
     };
-    const { data: fareRates } = await TBO.post(TBO_ENDPOINTS.HOTEL_SEARCH, fareRequest, {
+    const { data: fareRates } = await TBO.post(TBO_ENDPOINTS[credentials.TYPE].HOTEL_SEARCH, fareRequest, {
         auth: {
             username: credentials.USERNAME,
             password: credentials.PASSWORD

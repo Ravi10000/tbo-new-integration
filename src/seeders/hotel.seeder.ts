@@ -8,7 +8,7 @@ export async function hotelSeeder() {
         // await connectionMongoDb(MongoUrl());
         const doesHotelsExits = await StaticHotel.exists({});
         if (doesHotelsExits) throw new Error("Static Hotel already exists");
-        const { data: hotelCodesResponse } = await TBO.post(TBO_ENDPOINTS.TBO_HOTEL_CODES, { CityCode: "130443", IsDetailedResponse: false });
+        const { data: hotelCodesResponse } = await TBO.post(TBO_ENDPOINTS.TEST.TBO_HOTEL_CODES, { CityCode: "130443", IsDetailedResponse: false });
         const hotelCodesLength = hotelCodesResponse.Hotels.length;
         let [from, to] = [0, 100];
         do {
@@ -17,7 +17,7 @@ export async function hotelSeeder() {
             from = to;
             to = (hotelCodesLength > (to + 100)) ? (to + 100) : hotelCodesLength;
             console.log("fetching hotel details");
-            const { data: hotelResponse } = await TBO.post(TBO_ENDPOINTS.HOTEL_DETAILS, { HotelCodes: currentCodes, Language: "EN" })
+            const { data: hotelResponse } = await TBO.post(TBO_ENDPOINTS.TEST.HOTEL_DETAILS, { HotelCodes: currentCodes, Language: "EN" })
             await StaticHotel.insertMany(hotelResponse.HotelDetails);
         } while (to <= 500)
         console.log("saved all hotels");

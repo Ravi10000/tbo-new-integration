@@ -14,10 +14,10 @@ export async function countriesAndCitiesSeeder() {
         if (countryCount > 0)
             throw new Error("countries already exists");
 
-        const { data: countryListResponse } = await TBO.get(TBO_ENDPOINTS.COUNTRY_LIST);
+        const { data: countryListResponse } = await TBO.get(TBO_ENDPOINTS.TEST.COUNTRY_LIST);
         await Country.insertMany(countryListResponse.CountryList)
         for (let country of countryListResponse.CountryList) {
-            const { data: cityResponse } = await TBO.post(TBO_ENDPOINTS.CITY_LIST,
+            const { data: cityResponse } = await TBO.post(TBO_ENDPOINTS.TEST.CITY_LIST,
                 { CountryCode: country.Code });
             cityResponse.CityList = cityResponse.CityList.map((city: any) => ({ ...city, CountryCode: "IN" }));
             await City.insertMany(cityResponse.CityList);

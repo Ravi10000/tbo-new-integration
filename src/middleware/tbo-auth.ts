@@ -11,15 +11,17 @@ export interface ITBOCreds {
     USERNAME: string;
     PASSWORD: string;
     TOKEN_ID?: string;
+    TYPE: "TEST" | "LIVE"
 }
 export async function tboAuth(req: RequestTBO, res: Response, next: NextFunction) {
     try {
-        const creds = await TBOCredential.findOne({ companyId: req.body.authentication.companyId });
+        const creds = await TBOCredential.findOne({ companyId: req.body.authentication.companyId, type: req.body.authentication.credentialType });
         if (!creds) throw new CustomError("no TBO credentials found for given company id", 403);
         console.log({ creds });
         req.TBO = {
             USERNAME: creds.username,
             PASSWORD: creds.password,
+            TYPE: req.body.authentication.credentialType
         }
         const isTokenValid = !creds.tokenValidTillDateTime
             ? false
@@ -28,7 +30,7 @@ export async function tboAuth(req: RequestTBO, res: Response, next: NextFunction
         console.log({ isTokenValid });
 
         if (!isTokenValid) {
-            const { tokenId } = await getTBOAuthToken(creds.username, creds.password);
+            const { tokenId } = await getTBOAuthToken(creds.username, creds.password, req.TBO.TYPE);
             if (!tokenId) throw new CustomError("error fetching TBO auth token", 500);
             creds.tokenId = tokenId;
             creds.tokenValidTillDateTime = dayjs().add(24, 'hours').subtract(10, 'minutes').toDate();
