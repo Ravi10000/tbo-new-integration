@@ -11,7 +11,7 @@ class DetailsController {
                 success: true,
                 status: "success",
                 message: "hotel details fetched successfully",
-                hotelDetailsRS,
+                result: { hotelDetailsRS },
             })
         } catch (err) {
             next(err)

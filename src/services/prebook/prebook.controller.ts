@@ -11,7 +11,7 @@ class PrebookController {
             res.status(200).json({
                 status: "success",
                 message: "prebook response",
-                value: {
+                result: {
                     preBookRQ: req.body,
                     preBookRS: {
                         availabilityType: availability,

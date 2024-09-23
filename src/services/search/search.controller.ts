@@ -12,7 +12,7 @@ class SearchController {
                 success: true,
                 status: 200,
                 message: 'Search results retrieved successfully',
-                result
+                result: { searchRS: result }
             });
         } catch (err) {
             console.log({ err });
