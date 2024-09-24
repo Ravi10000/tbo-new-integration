@@ -8,12 +8,20 @@ export const guestValidations = [
         .notEmpty().withMessage("missing guest details")
         .isArray({ min: 1 }).withMessage("invalid guest details"),
     check(guestPath + ".*.title")
-        .notEmpty().withMessage("missing guest title"),
+        .notEmpty().withMessage("missing guest title")
+        .isLength({ min: 2 }).withMessage("invalid guest first title, must be at least 2 characters"),
     check(guestPath + ".*.firstName")
-        .notEmpty().withMessage("missing guest first name"),
+        .notEmpty().withMessage("missing guest first name")
+        .isLength({ min: 2 }).withMessage("invalid guest first name length, must be at least 2 characters"),
+    check(guestPath + ".*.lastName")
+        .notEmpty().withMessage("missing guest last name")
+        .isLength({ min: 2 }).withMessage("invalid guest last name length, must be at least 2 characters"),
     check(guestPath + ".*.email")
         .notEmpty().withMessage("missing guest's email")
         .isEmail().withMessage("invalid guest email"),
+    check(guestPath + ".*.contactNumber")
+        .notEmpty().withMessage("missing guest's contact number")
+        .isEmail().withMessage("invalid guest contact number"),
 ];
 
 export const roomDetailsValidations = [
