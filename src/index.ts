@@ -1,4 +1,5 @@
 import express from 'express';
+import compression from 'compression';
 import 'express-async-errors';
 import dotenv from 'dotenv';
 import { connectionMongoDb } from './config/connection';
@@ -8,6 +9,7 @@ import errorHandler from './middleware/errorHandler';
 import detailsRoutes from "../src/services/details/details.routes"
 import prebookRoutes from "../src/services/prebook/prebook.routes"
 import bookRoutes from "../src/services/book/book.routes"
+
 dotenv.config();
 // import { encrypt, decrypt } from './utils/aes-encryption';
 // const encryptedUsername = encrypt("Allfour");
@@ -26,6 +28,7 @@ const app = express();
 
 // app.use(compression())
 app.use(express.json());
+app.use(compression());
 app.use('/api/hotels', searchRoutes);
 app.use('/api/hotels', detailsRoutes);
 app.use('/api/hotels', prebookRoutes);

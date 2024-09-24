@@ -6,6 +6,7 @@ import { TBO, TBO_ENDPOINTS } from "../../utils/tbo.req";
 
 class BookService {
     static async bookHotel(request: IPrebookResponse, creds: ITBOCreds) {
+        console.log({ creds })
         try {
             console.dir({ request }, { depth: null });
             const requestBody = {
@@ -19,7 +20,7 @@ class BookService {
                         Title: guest.title,
                         FirstName: guest.firstName,
                         MiddleName: guest.middleName ?? "",
-                        LastName: guest.lastName,
+                        LastName: guest.lastName ?? "",
                         Email: guest.email,
                         PaxType: guest.guestType === "ADT" ? 1 : 2,
                         LeadPassenger: guestIdx === 0 && idx === 0,
@@ -27,7 +28,7 @@ class BookService {
                         PassportNo: null,
                         PassportIssueDate: null,
                         PassportExpDate: null,
-                        Phoneno: guest.contactNumber,
+                        Phoneno: guest.contactNumber ?? "",
                         PaxId: null,
                         GSTCompanyAddress: null,
                         GSTCompanyContactNumber: null,

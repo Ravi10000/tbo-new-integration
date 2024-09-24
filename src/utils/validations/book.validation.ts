@@ -7,10 +7,13 @@ export const guestValidations = [
     check(guestPath)
         .notEmpty().withMessage("missing guest details")
         .isArray({ min: 1 }).withMessage("invalid guest details"),
-    check(guestPath + ".title")
+    check(guestPath + ".*.title")
         .notEmpty().withMessage("missing guest title"),
-    check(guestPath + ".firstName")
+    check(guestPath + ".*.firstName")
         .notEmpty().withMessage("missing guest first name"),
+    check(guestPath + ".*.email")
+        .notEmpty().withMessage("missing guest's email")
+        .isEmail().withMessage("invalid guest email"),
 ];
 
 export const roomDetailsValidations = [
