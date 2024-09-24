@@ -44,7 +44,7 @@ export async function tboAuth(req: RequestTBO, res: Response, next: NextFunction
     }
 }
 
-export const tboAuthValidations = [
+export const authValidations = [
     check("authentication").notEmpty().withMessage("missing authentication details"),
     check("authentication.companyId").notEmpty().withMessage("invalid authentication.companyId"),
     check("authentication.credentialId").notEmpty().withMessage("invalid authentication.credentialId"),

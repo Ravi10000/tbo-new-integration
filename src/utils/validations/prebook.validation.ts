@@ -1,8 +1,8 @@
-import { tboAuthValidations } from "../../middleware/tbo-auth";
+import { authValidations } from "../../middleware/tbo-auth";
 import { check } from "../validations.utils";
 
 export const prebookValidations = [
-    ...tboAuthValidations,
+    ...authValidations,
     check("hotelCode")
         .notEmpty().withMessage("missing hotel code"),
     check("searchId")

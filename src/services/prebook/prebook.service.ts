@@ -1,4 +1,4 @@
-import { IPrebookRequest } from "../../interfaces/prebook.interface";
+import { IPrebookRequest, IPrebookResponse, ITBOValidations } from "../../interfaces/prebook.interface";
 import { ITBOCreds } from "../../middleware/tbo-auth";
 import { TBO, TBO_ENDPOINTS } from "../../utils/tbo.req";
 
@@ -14,10 +14,39 @@ class PrebookService {
                 password: creds.PASSWORD
             }
         });
-        const availability = response?.HotelResult?.Rooms?.[0]?.BookingCode === bookingCode
+        console.dir({ response }, { depth: null });
+
+        const rooms = response?.HotelResult[0]?.Rooms?.[0] ?? response?.HotelResult?.Rooms?.[0];
+        const availability = rooms?.BookingCode === bookingCode
             ? "confirm"
             : "not-available";
-        return availability;
+        const TBOValidations = response?.ValidationInfo;
+        const validations: ITBOValidations = {
+            isPanMandatory: TBOValidations?.PanMandatory ?? false,
+            isPassportMandatory: TBOValidations?.PassportMandatory ?? false,
+            isCorporateBookingAllowed: TBOValidations?.CorporateBookingAllowed ?? false,
+            panCountRequired: TBOValidations?.PanCountRequired ?? 0,
+            isSamePaxNameAllowed: TBOValidations.SamePaxNameAllowed ?? true,
+            isSpaceAllowed: TBOValidations.SpaceAllowed ?? false,
+            isSpecialCharAllowed: TBOValidations.SpecialCharAllowed ?? false,
+            paxNameMinLength: TBOValidations?.PaxNameMinLength ?? 0,
+            paxNameMaxLength: TBOValidations?.PaxNameMaxLength ?? 0,
+            charLimit: TBOValidations.CharLimit ?? false,
+            isPackageFare: TBOValidations.PackageFare ?? false,
+            isPackageDetailsMandatory: TBOValidations.PackageDetailsMandatory ?? false,
+            isDepartureDetailsMandatory: TBOValidations.DepartureDetailsMandatory ?? false,
+            isGSTAllowed: TBOValidations.GSTAllowed ?? false,
+        }
+        const prebookResponse: IPrebookResponse = {
+            ...data,
+            netAmount: rooms.NetAmount,
+            netTax: rooms.NetTax,
+            availability,
+            totalFare: rooms.TotalFare,
+            totalTax: rooms.TotalTax,
+            validations
+        }
+        return prebookResponse;
     }
 }
 

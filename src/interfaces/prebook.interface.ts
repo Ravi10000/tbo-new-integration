@@ -25,6 +25,32 @@ export interface IPrebookRequest {
     corporateName: string;
 }
 
+export interface IPrebookResponse extends IPrebookRequest {
+    totalFare: number;
+    totalTax: number;
+    netAmount: number;
+    netTax: number;
+    validations: ITBOValidations;
+    availability: string;
+}
+
+export interface ITBOValidations {
+    isPanMandatory: boolean;
+    isPassportMandatory: boolean;
+    isCorporateBookingAllowed: boolean;
+    panCountRequired: number;
+    isSamePaxNameAllowed: boolean;
+    isSpaceAllowed: boolean;
+    isSpecialCharAllowed: boolean;
+    paxNameMinLength: number;
+    paxNameMaxLength: number;
+    charLimit: boolean;
+    isPackageFare: boolean;
+    isPackageDetailsMandatory: boolean;
+    isDepartureDetailsMandatory: boolean;
+    isGSTAllowed: boolean;
+}
+
 export interface IGSTDetail {
     title: string | null;
     firstName: string | null;

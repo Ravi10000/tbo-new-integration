@@ -1,9 +1,9 @@
 // import moment from 'moment';
-import { tboAuthValidations } from '../../middleware/tbo-auth';
+import { authValidations } from '../../middleware/tbo-auth';
 import { check, isValidDate } from '../validations.utils';
 
 export const searchValidation = [
-    ...tboAuthValidations,
+    ...authValidations,
     check('checkIn').custom(isValidDate)
         .withMessage("invalid check in date, valid format YYYY-MM-DD"),
     check('checkOut').custom(isValidDate)
