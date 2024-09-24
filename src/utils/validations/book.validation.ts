@@ -21,7 +21,6 @@ export const guestValidations = [
         .isEmail().withMessage("invalid guest email"),
     check(guestPath + ".*.contactNumber")
         .notEmpty().withMessage("missing guest's contact number")
-        .isEmail().withMessage("invalid guest contact number"),
 ];
 
 export const roomDetailsValidations = [
