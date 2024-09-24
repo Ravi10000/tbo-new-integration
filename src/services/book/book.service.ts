@@ -8,6 +8,7 @@ class BookService {
     static async bookHotel(request: IPrebookResponse, creds: ITBOCreds) {
         console.log({ creds })
         try {
+            let paxId = 0;
             console.dir({ request }, { depth: null });
             const requestBody = {
                 BookingCode: request.roomDetails[0].roomTypes.roomTypeCode,
@@ -29,7 +30,7 @@ class BookService {
                         // PassportIssueDate: null,
                         // PassportExpDate: null,
                         Phoneno: guest.contactNumber,
-                        PaxId: null,
+                        PaxId: paxId++,
                         GSTCompanyAddress: null,
                         GSTCompanyContactNumber: null,
                         GSTCompanyName: null,
@@ -46,7 +47,8 @@ class BookService {
                     password: creds.PASSWORD
                 }
             });
-            const isConfirmed = response.BookResult?.HotelBookingStatus !== "Confirmed";
+            console.log({ response })
+            const isConfirmed = response.BookResult?.HotelBookingStatus === "Confirmed";
             const result = {
                 id: isConfirmed ? constructBookingId(response.BookResult) : null,
                 confirmation: isConfirmed ? response.BookResult?.ConfirmationNo : null,
