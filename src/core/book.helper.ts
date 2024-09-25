@@ -23,7 +23,7 @@ export function destructBookingId(bookingIdString: string) {
         bookingRefNo,
         bookingId
     ] = bookingIdString.split("||");
-    return [
+    return {
         voucherStatus,
         traceId,
         status,
@@ -32,5 +32,5 @@ export function destructBookingId(bookingIdString: string) {
         confirmationNo,
         bookingRefNo,
         bookingId
-    ];
+    }
 }

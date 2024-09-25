@@ -108,18 +108,6 @@ export function generateRoomResponse(room: ITBORoom, hotelCode: string, resultIn
                             type: "Tax",
                             amount: roomTax
                         },
-                        // {
-                        //     Type: "ServiceCharge",
-                        //     Amount: 0.0
-                        // },
-                        // {
-                        //     Type: "ServiceTax",
-                        //     Amount: 0.0
-                        // },
-                        // {
-                        //     Type: "OtherCharges",
-                        //     Amount: 0.0
-                        // }
                     ],
                     additionalGuestAmount: 0,
                     commission: {

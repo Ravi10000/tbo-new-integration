@@ -6,9 +6,10 @@ import { connectionMongoDb } from './config/connection';
 import { MongoUrl } from './config/config';
 import searchRoutes from './services/search/search.routes';
 import errorHandler from './middleware/errorHandler';
-import detailsRoutes from "../src/services/details/details.routes"
-import prebookRoutes from "../src/services/prebook/prebook.routes"
-import bookRoutes from "../src/services/book/book.routes"
+import detailsRoutes from "../src/services/details/details.routes";
+import prebookRoutes from "../src/services/prebook/prebook.routes";
+import bookRoutes from "../src/services/book/book.routes";
+import bookingDetailsRoutes from "../src/services/booking-details/booking-details.routes"
 
 dotenv.config();
 // import { encrypt, decrypt } from './utils/aes-encryption';
@@ -33,6 +34,7 @@ app.use('/api/hotels', searchRoutes);
 app.use('/api/hotels', detailsRoutes);
 app.use('/api/hotels', prebookRoutes);
 app.use('/api/hotels', bookRoutes);
+app.use('/api/hotels', bookingDetailsRoutes);
 
 app.use(errorHandler);
 
