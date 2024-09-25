@@ -7,9 +7,14 @@ class BookingDetailsService {
     static async getBookingDetails(request: IBookingDetailsRequest, creds: ITBOCreds) {
         const { bookingId: tboBookingId } = destructBookingId(request.bookingId);
         const { data: response } = await TBO.post(TBO_ENDPOINTS[creds.TYPE].BOOKING_DETAILS, {
-            EndUserIp: "192.168.1.1",
+            EndUserIp: "192.168.9.119",
             TokenId: creds.TOKEN_ID,
             BookingId: tboBookingId
+        }, {
+            auth: {
+                username: creds.USERNAME,
+                password: creds.PASSWORD,
+            }
         })
         return response;
     }
