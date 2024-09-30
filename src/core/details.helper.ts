@@ -39,7 +39,7 @@ export async function getHotelDetails(hotelCode: string, request: IDetailsReques
         checkInTime: hotel.CheckInTime,
         checkOutTime: hotel.CheckOutTime,
         searchId: request.searchId,
-        hotelPicture: hotel.Images[0],
+        hotelPicture: hotel.Images?.[0],
         isHotDeal: false,
         hotelRating: hotel.HotelRating,
         code: hotel.HotelCode,
@@ -53,19 +53,19 @@ export async function getHotelDetails(hotelCode: string, request: IDetailsReques
         maxRate: null,
         currency: null,
         description: hotel.Description,
-        totalPrice: fareRate.Rooms[0].TotalFare,
-        imagePath: hotel.Images[0],
+        totalPrice: fareRate.Rooms?.[0]?.TotalFare,
+        imagePath: hotel.Images?.[0],
         resultIndex: null,
         hotelLocation: null,
-        roomTypes: fareRate.Rooms.map((room, roomIdx) => ({
+        roomTypes: fareRate?.Rooms?.map?.((room, roomIdx) => ({
             roomTypeCode: room.BookingCode,
             roomRates: generateRoomResponse(room, hotelCode, "1", roomIdx)
         })),
     };
     return {
         hotelDetails,
-        hotelImages: hotel.Images.map(image => ({ type: 'regular', url: image })),
-        facilities: hotel.HotelFacilities.map(facility => ({
+        hotelImages: hotel.Images?.map?.(image => ({ type: 'regular', url: image })),
+        facilities: hotel.HotelFacilities?.map?.(facility => ({
             amenityType: facility,
             description: facility
         })),

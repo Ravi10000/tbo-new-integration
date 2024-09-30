@@ -9,7 +9,8 @@ class VoucherBooking {
             const { bookingId } = destructBookingId(request.bookingReference)
             const requestBody = {
                 EndUserIp: "192.168.9.119",
-                BookingId: bookingId
+                BookingId: bookingId,
+                TokenId: creds.TOKEN_ID
             };
             console.dir({ requestBody }, { depth: null });
             const { data: response } = await TBO.post(TBO_ENDPOINTS[creds.TYPE].GENERATE_VOUCHER,
@@ -31,7 +32,8 @@ class VoucherBooking {
             } as IBookResult;
             return { result };
         } catch (error: any) {
-            console.log({ error });
+            // console.log({ error });
+            console.dir({ request: error?.response?.request }, { depth: null })
             return { error: "Something went wrong while generating voucher" };
         }
     }
