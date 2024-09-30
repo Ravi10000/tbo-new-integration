@@ -1,33 +1,20 @@
-import { destructBookingId } from "../../core/book.helper";
-import { ITBOCancelBookingResponse } from "../../interfaces/cancel-booking.interface";
 import { ITBOCreds } from "../../middleware/tbo-auth";
 import { TBO, TBO_ENDPOINTS } from "../../utils/tbo.req";
 
-class CancelBookingService {
-  static async cancelBooking(request: any, creds: ITBOCreds) {
+class CancelBookingStatusService {
+  static async cancelBookingStatus(request: any, creds: ITBOCreds) {
     try {
-      const { bookingId } = destructBookingId(request.bookingReference)
       const requestBody = {
-        BookingMode: 5,
-        RequestType: 4,
-        Remarks: "Cancel Booking",
-        BookingId: bookingId,
+        ChangeRequestId: request.requestId,
         EndUserIp: "192.168.9.119",
         TokenId: creds.TOKEN_ID
       };
-      const { data: response } = await TBO.post(TBO_ENDPOINTS[creds.TYPE].CANCEL_BOOKING, requestBody, {
+      const { data: response } = await TBO.post(TBO_ENDPOINTS[creds.TYPE].CANCEL_BOOKING_STATUS, requestBody, {
         auth: {
           username: creds.USERNAME,
           password: creds.PASSWORD
         }
-      }) as { data: ITBOCancelBookingResponse };
-      // const status = {
-      //   "0": "NotSet",
-      //   "1": "Pending",
-      //   "2": "InProgress",
-      //   "3": "Processed",
-      //   "4": "Rejected"
-      // }
+      });
       let status = "Pending";
       switch (response.HotelChangeRequestResult.ChangeRequestStatus) {
         case 0:
@@ -58,4 +45,4 @@ class CancelBookingService {
   }
 }
 
-export default CancelBookingService;
+export default CancelBookingStatusService;

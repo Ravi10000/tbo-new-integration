@@ -11,6 +11,7 @@ import prebookRoutes from "../src/services/prebook/prebook.routes";
 import bookRoutes from "../src/services/book/book.routes";
 import bookingDetailsRoutes from "../src/services/booking-details/booking-details.routes"
 import cancelBookingRoutes from "../src/services/cancel-booking/cancel-booking.routes"
+import cancelBookingStatusRoutes from "../src/services/cancel-booking-status/cancel-booking-status.routes"
 dotenv.config();
 // import { encrypt, decrypt } from './utils/aes-encryption';
 // const encryptedUsername = encrypt("Allfour");
@@ -36,6 +37,7 @@ app.use('/api/hotels', prebookRoutes);
 app.use('/api/hotels', bookRoutes);
 app.use('/api/hotels', bookingDetailsRoutes);
 app.use('/api/hotels', cancelBookingRoutes);
+app.use('/api/hotels', cancelBookingStatusRoutes);
 
 app.use(errorHandler);
 
