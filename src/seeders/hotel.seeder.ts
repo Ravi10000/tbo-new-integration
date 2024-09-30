@@ -20,7 +20,7 @@ export async function hotelSeeder() {
             const { data: hotelResponse } = await TBO.post(TBO_ENDPOINTS.TEST.HOTEL_DETAILS, { HotelCodes: currentCodes, Language: "EN" })
             await StaticHotel.insertMany(hotelResponse.HotelDetails);
         } while (to <= 500)
-        console.log("saved all hotels");
+        console.log("saved 500 hotels");
     } catch (error) {
         console.log({ error });
     } finally {
