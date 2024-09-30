@@ -12,7 +12,7 @@ class PrebookController {
                 status: "success",
                 message: "prebook response",
                 result: {
-                    preBookRQ: req.body,
+                    // preBookRQ: req.body,
                     preBookRS: prebookResponse
                 }
             })
