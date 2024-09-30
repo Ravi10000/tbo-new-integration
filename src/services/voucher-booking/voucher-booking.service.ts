@@ -10,11 +10,10 @@ class VoucherBooking {
             const requestBody = {
                 EndUserIp: "192.168.9.119",
                 BookingId: bookingId,
-                TokenId: creds.TOKEN_ID
             };
             console.dir({ requestBody }, { depth: null });
             const { data: response } = await TBO.post(TBO_ENDPOINTS[creds.TYPE].GENERATE_VOUCHER,
-                { requestBody }, {
+                requestBody, {
                 auth: {
                     username: creds.USERNAME,
                     password: creds.PASSWORD,
