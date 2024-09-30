@@ -31,8 +31,7 @@ class VoucherBooking {
             } as IBookResult;
             return { result };
         } catch (error: any) {
-            // console.log({ error });
-            console.dir({ request: error?.response?.request }, { depth: null })
+            console.log({ error });
             return { error: "Something went wrong while generating voucher" };
         }
     }
