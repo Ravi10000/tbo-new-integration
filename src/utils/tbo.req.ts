@@ -22,7 +22,7 @@ export const TBO_ENDPOINTS = {
         BOOK: "http://api.tektravels.com/BookingEngineService_Hotel/hotelservice.svc/rest/Book",
         BOOKING_DETAILS:
             "http://api.tektravels.com/BookingEngineService_Hotel/HotelService.svc/rest/GetBookingDetail",
-        VOUCHER_BOOKING_DETAILS:
+        GENERATE_VOUCHER:
             "http://api.tektravels.com/BookingEngineService_Hotel/hotelservice.svc/rest/GenerateVoucher",
         CANCEL_BOOKING:
             "http://api.tektravels.com/BookingEngineService_Hotel/hotelservice.svc/rest/SendChangeRequest",
@@ -44,7 +44,7 @@ export const TBO_ENDPOINTS = {
         BOOK: "http://api.tektravels.com/BookingEngineService_Hotel/hotelservice.svc/rest/Book",
         BOOKING_DETAILS:
             "http://api.tektravels.com/BookingEngineService_Hotel/HotelService.svc/rest/GetBookingDetail",
-        VOUCHER_BOOKING_DETAILS:
+        GENERATE_VOUCHER:
             "http://api.tektravels.com/BookingEngineService_Hotel/hotelservice.svc/rest/GenerateVoucher",
         CANCEL_BOOKING:
             "http://api.tektravels.com/BookingEngineService_Hotel/hotelservice.svc/rest/SendChangeRequest",

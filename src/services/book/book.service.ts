@@ -50,7 +50,7 @@ class BookService {
             console.log({ response })
             const isConfirmed = response.BookResult?.HotelBookingStatus === "Confirmed";
             const result = {
-                id: isConfirmed ? constructBookingId(response.BookResult) : null,
+                bookingReference: isConfirmed ? constructBookingId(response.BookResult) : null,
                 confirmation: isConfirmed ? response.BookResult?.ConfirmationNo : null,
                 availabilityType: null,
                 errorMessage: response?.BookResult?.Error?.ErrorMessage ?? null,

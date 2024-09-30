@@ -21,7 +21,7 @@ export interface ITBOBookResult {
 }
 
 export interface IBookResult {
-    id: string | null;
+    bookingReference: string | null;
     type: "booked" | "not-booked";
     isHold: boolean;
     prebookRS: IPrebookResponse;
