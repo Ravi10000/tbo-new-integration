@@ -10,4 +10,6 @@ export const prebookValidations = [
         .notEmpty().withMessage("missing hotel code"),
     check("searchId")
         .notEmpty().withMessage("missing search id"),
+    check("isHold").notEmpty().withMessage("missing isHold")
+        .isBoolean().withMessage("isHold must be true or false")
 ]

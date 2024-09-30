@@ -23,6 +23,7 @@ export interface IPrebookRequest {
     taxes: number;
     purposeOfTravel: number;
     corporateName: string;
+    isHold: boolean;
 }
 
 export interface IPrebookResponse extends IPrebookRequest {
@@ -32,6 +33,7 @@ export interface IPrebookResponse extends IPrebookRequest {
     netTax: number;
     validations: ITBOValidations;
     availability: string;
+    isHold: boolean;
 }
 
 export interface ITBOValidations {

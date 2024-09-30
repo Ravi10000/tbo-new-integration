@@ -12,7 +12,7 @@ class BookService {
             console.dir({ request }, { depth: null });
             const requestBody = {
                 BookingCode: request.roomDetails[0].roomTypes.roomTypeCode,
-                IsVoucherBooking: true,
+                IsVoucherBooking: !request.isHold,
                 GuestNationality: "IN",
                 EndUserIp: "192.168.9.119",
                 NetAmount: request.netAmount,
@@ -55,7 +55,7 @@ class BookService {
                 availabilityType: null,
                 errorMessage: response?.BookResult?.Error?.ErrorMessage ?? null,
                 prebookRS: request,
-                isHold: false,
+                isHold: request.isHold,
                 type: isConfirmed ? "booked" : "not-booked",
             } as IBookResult;
             return { result };

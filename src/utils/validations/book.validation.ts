@@ -47,4 +47,6 @@ export const bookValidations = [
         .notEmpty().withMessage("missing search id"),
     check("netAmount").notEmpty().withMessage("missing net amount")
         .isNumeric().withMessage("net amount must be a number"),
+    check("isHold").notEmpty().withMessage("missing isHold")
+        .isBoolean().withMessage("isHold must be true or false")
 ];

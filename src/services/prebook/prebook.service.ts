@@ -44,7 +44,8 @@ class PrebookService {
             availability,
             totalFare: rooms.TotalFare,
             totalTax: rooms.TotalTax,
-            validations
+            validations,
+            isHold: data.isHold
         }
         return prebookResponse;
     }
