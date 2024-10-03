@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Response, Request } from 'express';
 import compression from 'compression';
 import 'express-async-errors';
 import dotenv from 'dotenv';
@@ -32,7 +32,7 @@ const app = express();
 // app.use(compression())
 app.use(express.json());
 app.use(compression());
-app.get("/", (req, res) => {
+app.get("/", (req: Request, res: Response) => {
     res.status(200).json({ status: "success", message: "TBO APIs" })
 })
 app.use('/api/hotels', searchRoutes);
