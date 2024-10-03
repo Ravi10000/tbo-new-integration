@@ -16,7 +16,7 @@ export interface ITBOCreds {
 export async function tboAuth(req: RequestTBO, res: Response, next: NextFunction) {
     try {
         const creds = await TBOCredential.findOne({ companyId: req.body.authentication.companyId, type: req.body.authentication.credentialType });
-        if (!creds) throw new CustomError("no TBO credentials found for given company id", 403);
+        if (!creds) throw new CustomError(`no TBO credentials found for given company id ${req.body?.authentication?.companyId}`, 403);
         console.log({ creds });
         req.TBO = {
             USERNAME: creds.username,
