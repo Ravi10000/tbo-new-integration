@@ -32,6 +32,9 @@ const app = express();
 // app.use(compression())
 app.use(express.json());
 app.use(compression());
+app.get("/", (req, res) => {
+    res.status(200).json({ status: "success", message: "TBO APIs" })
+})
 app.use('/api/hotels', searchRoutes);
 app.use('/api/hotels', detailsRoutes);
 app.use('/api/hotels', prebookRoutes);

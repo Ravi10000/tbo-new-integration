@@ -15,8 +15,9 @@ class CancelBookingStatusService {
           password: creds.PASSWORD
         }
       });
+      console.log({ response })
       let status = "Pending";
-      switch (response.HotelChangeRequestResult.ChangeRequestStatus) {
+      switch (response?.HotelChangeRequestStatusResult?.ChangeRequestStatus) {
         case 0:
         case 1:
           status = "Pending";
