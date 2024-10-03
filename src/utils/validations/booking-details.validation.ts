@@ -3,5 +3,5 @@ import { check } from "../validations.utils";
 
 export const bookingDetailsValidations = [
     ...authValidations,
-    check("bookingId").notEmpty().withMessage("booking Id is required")
+    check("bookingReference").notEmpty().withMessage("booking reference is required")
 ]
