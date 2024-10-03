@@ -10,7 +10,12 @@ class CancelBookingController {
       if (!req.TBO) throw new Error("invalid credentials")
       const { result, error } = await CancelBookingService.cancelBooking(req.body, req.TBO);
       if (error) throw new Error(error.message);
-      return res.status(200).json(result);
+      return res.status(200).json({
+        success: true,
+        status: 200,
+        message: 'Cancel Booking Requested',
+        result
+      });
     } catch (error) {
       console.log({ error });
       next(error);

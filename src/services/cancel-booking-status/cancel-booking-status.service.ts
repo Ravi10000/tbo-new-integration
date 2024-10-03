@@ -34,9 +34,8 @@ class CancelBookingStatusService {
       }
       return {
         result: {
-          data: response,
           status: 200,
-          description: `Booking Status - ${status}`
+          description: `Booking Status - ${status}`,
         }
       }
     } catch (error: any) {

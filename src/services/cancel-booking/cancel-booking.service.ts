@@ -29,7 +29,7 @@ class CancelBookingService {
       //   "4": "Rejected"
       // }
       let status = "Pending";
-      switch (response.HotelChangeRequestResult.ChangeRequestStatus) {
+      switch (response?.HotelChangeRequestResult?.ChangeRequestStatus) {
         case 0:
         case 1:
           status = "Pending";
@@ -46,9 +46,9 @@ class CancelBookingService {
       }
       return {
         result: {
-          data: response,
           status: 200,
-          description: `Booking Status - ${status}`
+          requestId: response?.HotelChangeRequestResult?.ChangeRequestId ?? null,
+          description: `Booking Status - ${status}`,
         }
       }
     } catch (error: any) {
