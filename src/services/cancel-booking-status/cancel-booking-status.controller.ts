@@ -13,7 +13,7 @@ class CancelBookingStatusController {
       return res.status(200).json({
         success: true,
         status: 200,
-        message: 'Cancel Booking Status',
+        message: 'cancel booking response',
         result
       });
     } catch (error) {

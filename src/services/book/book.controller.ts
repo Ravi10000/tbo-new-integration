@@ -13,7 +13,7 @@ class BookController {
             res.status(200).json({
                 success: true,
                 status: 200,
-                message: 'Search results retrieved successfully',
+                message: 'book response',
                 result
             });
         } catch (err) {

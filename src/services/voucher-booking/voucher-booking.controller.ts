@@ -8,7 +8,12 @@ class VoucherController {
             if (!req.TBO) throw new Error("missing credentials");
             const { result, error } = await VoucherBooking.voucherBooking(req.body, req.TBO);
             if (error) throw new Error(error);
-            return res.status(200).json(result);
+            return res.status(200).json({
+                success: true,
+                status: 200,
+                message: 'voucher response',
+                result
+            });
         } catch (err: any) {
             console.log({ err });
             next(err);
