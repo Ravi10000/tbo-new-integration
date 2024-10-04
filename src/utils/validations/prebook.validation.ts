@@ -3,7 +3,7 @@ import { check } from "../validations.utils";
 import { guestValidations, roomDetailsValidations } from "./book.validation";
 
 export const prebookValidations = [
-    ...authValidations,
+    // ...authValidations,
     ...guestValidations,
     ...roomDetailsValidations,
     check("hotelCode")

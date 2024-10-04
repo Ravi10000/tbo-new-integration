@@ -38,7 +38,7 @@ export const roomDetailsValidations = [
 
 
 export const bookValidations = [
-    ...authValidations,
+    // ...authValidations,
     ...roomDetailsValidations,
     ...guestValidations,
     check("hotelCode")

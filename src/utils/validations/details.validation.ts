@@ -3,7 +3,7 @@ import { check, isValidDate } from "../validations.utils";
 
 
 export const detailsValidations = [
-    ...authValidations,
+    // ...authValidations,
     check('checkIn').custom(isValidDate)
         .withMessage("invalid check in date, valid format YYYY-MM-DD"),
     check('checkOut').custom(isValidDate)

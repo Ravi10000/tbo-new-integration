@@ -18,14 +18,14 @@ class BookingDetailsService {
                 }
             });
             const isConfirmed = response.GetBookingDetailResult?.HotelBookingStatus === "Confirmed";
-            const result = {
+            const bookingDetailsRS = {
                 bookingReference: request.bookingReference,
                 confirmation: isConfirmed ? response.GetBookingDetailResult?.ConfirmationNo : null,
                 availabilityType: null,
                 errorMessage: response?.GetBookingDetailResult?.Error?.ErrorMessage ?? null,
                 type: isConfirmed ? "booked" : "not-booked",
             }
-            return { result };
+            return { bookingDetailsRS };
         } catch (error: any) {
             console.log({ error });
             return { error: error.message };

@@ -6,13 +6,18 @@ class BookingController {
     static async getBookingDetails(req: RequestTBO, res: Response, next: NextFunction) {
         try {
             if (!req.TBO) throw new Error("TBO Credentials is missing");
-            const { result, error } = await BookingDetailsService.getBookingDetails(req.body, req.TBO);
+            const { bookingDetailsRS, error } = await BookingDetailsService.getBookingDetails(req.body, req.TBO);
             if (error) throw new Error(error);
             res.status(200).json({
                 success: true,
                 status: "success",
                 message: "booking details fetched successfully",
-                result,
+                result: {
+                    contentType: "json",
+                    serializerSettings: null,
+                    statusCode: 200,
+                    bookingDetailsRS
+                },
             });
         } catch (err) {
             console.log({ err });

@@ -9,7 +9,6 @@ class BookService {
         console.log({ creds })
         try {
             let paxId = 0;
-            console.dir({ request }, { depth: null });
             const requestBody = {
                 BookingCode: request.roomDetails[0].roomTypes.roomTypeCode,
                 IsVoucherBooking: !request.isHold,
@@ -40,16 +39,15 @@ class BookService {
                     }))
                 }))
             };
-            console.dir({ requestBody }, { depth: null });
-            const { data: response } = await TBO.post(TBO_ENDPOINTS[creds.TYPE].BOOK, requestBody, {
-                auth: {
-                    username: creds.USERNAME,
-                    password: creds.PASSWORD
-                }
-            });
-            console.log({ response })
+            const bookURL = TBO_ENDPOINTS[creds.TYPE].BOOK;
+            const auth = {
+                username: creds.USERNAME,
+                password: creds.PASSWORD
+            };
+            const { data: response } = await TBO.post(bookURL, requestBody, { auth });
+            console.log({ response });
             const isConfirmed = response.BookResult?.HotelBookingStatus === "Confirmed";
-            const result = {
+            const bookRS = {
                 bookingReference: isConfirmed ? constructBookingId(response.BookResult) : null,
                 confirmation: isConfirmed ? response.BookResult?.ConfirmationNo : null,
                 availabilityType: null,
@@ -58,7 +56,7 @@ class BookService {
                 isHold: request.isHold,
                 type: isConfirmed ? "booked" : "not-booked",
             } as IBookResult;
-            return { result };
+            return { bookRS };
         } catch (err: any) {
             console.log({ err });
             return { error: err.message }

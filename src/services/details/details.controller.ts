@@ -11,7 +11,12 @@ class DetailsController {
                 success: true,
                 status: "success",
                 message: "hotel details fetched successfully",
-                result: { hotelDetailsRS },
+                result: {
+                    contentType: "json",
+                    serializerSettings: null,
+                    statusCode: 200,
+                    hotelDetailsRS
+                },
             })
         } catch (err) {
             next(err)

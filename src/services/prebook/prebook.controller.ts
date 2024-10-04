@@ -12,7 +12,9 @@ class PrebookController {
                 status: "success",
                 message: "prebook response",
                 result: {
-                    // preBookRQ: req.body,
+                    contentType: "json",
+                    serializerSettings: null,
+                    statusCode: 200,
                     preBookRS: prebookResponse
                 }
             })

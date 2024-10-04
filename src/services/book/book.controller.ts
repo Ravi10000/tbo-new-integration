@@ -8,13 +8,18 @@ class BookController {
         try {
             if (!req.TBO?.USERNAME || !req.TBO?.PASSWORD)
                 throw new CustomError("TBO credentials required", 400);
-            const { result, error } = await BookService.bookHotel(req.body, req.TBO);
+            const { bookRS, error } = await BookService.bookHotel(req.body, req.TBO);
             if (error) throw new CustomError(error, 400);
             res.status(200).json({
                 success: true,
                 status: 200,
                 message: 'book response',
-                result
+                result: {
+                    contentType: "json",
+                    serializerSettings: null,
+                    statusCode: 200,
+                    bookRS
+                }
             });
         } catch (err) {
             console.log({ err });
