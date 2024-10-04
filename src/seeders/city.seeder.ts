@@ -19,7 +19,7 @@ export async function countriesAndCitiesSeeder() {
         for (let country of countryListResponse.CountryList) {
             const { data: cityResponse } = await TBO.post(TBO_ENDPOINTS.TEST.CITY_LIST,
                 { CountryCode: country.Code });
-            cityResponse.CityList = cityResponse.CityList.map((city: any) => ({ ...city, CountryCode: "IN" }));
+            cityResponse.CityList = cityResponse.CityList.map((city: any) => ({ ...city, CountryCode: country.Code }));
             await City.insertMany(cityResponse.CityList);
             console.log(`successfully inserted cities for ${country.Name}`)
         }
