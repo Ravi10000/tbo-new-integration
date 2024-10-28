@@ -24,13 +24,14 @@ export async function getStaticHotels(data: ISearchRequest) {
 }
 
 export async function getHotelsRates(requestBody: any, credentials: ITBOCreds): Promise<ITBOHotelRates[]> {
+    console.dir({ requestBody }, { depth: null });
     const { data } = await TBO.post(TBO_ENDPOINTS[credentials.TYPE].HOTEL_SEARCH, requestBody, {
         auth: {
             username: credentials.USERNAME,
             password: credentials.PASSWORD
         }
     })
-    if (data.Status.Code !== 200) throw new CustomError("hotels search error", 500, data);
+    if (data.Status.Code !== 200) throw new CustomError("hotels search error", 500, data?.Status?.Description ?? "Error Fetching Hotels");
     return data.HotelResult;
 }
 export function filterHotelsByPriceRange(hotels: ITBOHotelRates[], min: number | null | undefined, max: number | null | undefined): ITBOHotelRates[] {

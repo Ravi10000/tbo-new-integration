@@ -18,17 +18,16 @@ export async function hotelSeeder() {
             fs.writeFileSync(`${filePath}/saved-hotel-codes.json`, JSON.stringify({ savedHotelCodes }, null, 2));
         }
         console.log({ savedHotelCodesLength: savedHotelCodes.length });
-        const savedCodesMap: any = {};
+        // const savedCodesMap: any = {};
+        // savedHotelCodes.forEach((code: string, idx: number) => {
+        //     console.log({ code, idx });
+        //     savedCodesMap[code] = true;
+        // })
         console.time("savedHotel");
-
-        savedHotelCodes.forEach((code: string, idx: number) => {
+        const savedCodesMap = savedHotelCodes.reduce((map: {}, code: string, idx: number) => {
             console.log({ code, idx });
-            savedCodesMap[code] = true;
-        })
-        // const savedCodesMap = savedHotelCodes.reduce((map: {}, code: string, idx: number) => {
-        //     console.log({ code, idx })
-        //     return { ...map, [code]: true }
-        // }, {});
+            return { ...map, [code]: true }
+        }, {});
         console.timeEnd("savedHotel");
         const { data: hotelCodeResponse } = await TBO.get(TBO_ENDPOINTS.TEST.HOTEL_CODES);
         const hotelCodes = hotelCodeResponse.HotelCodes;

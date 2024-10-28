@@ -44,6 +44,7 @@ class BookService {
                 username: creds.USERNAME,
                 password: creds.PASSWORD
             };
+            console.dir({ bookURL, requestBody, auth }, { depth: null });
             const { data: response } = await TBO.post(bookURL, requestBody, { auth });
             console.log({ response });
             const isConfirmed = response.BookResult?.HotelBookingStatus === "Confirmed";
