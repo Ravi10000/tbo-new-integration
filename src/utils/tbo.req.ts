@@ -19,7 +19,8 @@ export const TBO_ENDPOINTS = {
         HOTEL_DETAILS:
             "http://api.tbotechnology.in/TBOHolidays_HotelAPI/Hoteldetails",
         PRE_BOOK: "https://affiliate.tektravels.com/HotelAPI/PreBook",
-        BOOK: "http://api.tektravels.com/BookingEngineService_Hotel/hotelservice.svc/rest/Book",
+        BOOK: "https://hotelbe.tektravels.com/hotelservice.svc/rest/book",
+        // BOOK: "http://api.tektravels.com/BookingEngineService_Hotel/hotelservice.svc/rest/Book",
         BOOKING_DETAILS:
             "http://api.tektravels.com/BookingEngineService_Hotel/HotelService.svc/rest/GetBookingDetail",
         GENERATE_VOUCHER:
@@ -41,7 +42,7 @@ export const TBO_ENDPOINTS = {
         HOTEL_DETAILS:
             "http://api.tbotechnology.in/TBOHolidays_HotelAPI/Hoteldetails",
         PRE_BOOK: "https://affiliate.tektravels.com/HotelAPI/PreBook",
-        BOOK: "http://api.tektravels.com/BookingEngineService_Hotel/hotelservice.svc/rest/Book",
+        BOOK: "https://hotelbe.tektravels.com/hotelservice.svc/rest/book",
         BOOKING_DETAILS:
             "http://api.tektravels.com/BookingEngineService_Hotel/HotelService.svc/rest/GetBookingDetail",
         GENERATE_VOUCHER:
