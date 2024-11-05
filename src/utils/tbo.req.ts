@@ -2,10 +2,17 @@ import axios from "axios"
 
 export const TBO = axios.create();
 TBO.defaults.headers.common["Accept-Encoding"] = "gzip, deflate";
+TBO.defaults.headers.common["Content-Type"] = "application/json";
 TBO.defaults.auth = {
     username: "TBOStaticAPITest",
     password: "Tbo@11530818"
 }
+TBO.interceptors.request.use(function (config) {
+    console.dir({ config }, { depth: null });
+    return config;
+}, function (error) {
+    return Promise.reject(error);
+});
 export const TBO_ENDPOINTS = {
     TEST: {
         AUTHENTICATE:
