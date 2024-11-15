@@ -1,6 +1,7 @@
 import { constructBookingId, destructBookingId } from "../../core/book.helper";
 import { IBookingDetailsRequest } from "../../interfaces/booking-details.interface";
 import { ITBOCreds } from "../../middleware/tbo-auth";
+import { generateBasicAuth } from "../../utils/generate-basic-auth";
 import { TBO, TBO_ENDPOINTS } from "../../utils/tbo.req";
 
 class BookingDetailsService {
@@ -12,10 +13,13 @@ class BookingDetailsService {
                 TokenId: creds.TOKEN_ID,
                 BookingId: bookingId
             }, {
-                auth: {
-                    username: creds.USERNAME,
-                    password: creds.PASSWORD,
+                headers: {
+                    Authorization: generateBasicAuth(creds.USERNAME, creds.PASSWORD)
                 }
+                // auth: {
+                //     username: creds.USERNAME,
+                //     password: creds.PASSWORD,
+                // }
             });
             const isConfirmed = response.GetBookingDetailResult?.HotelBookingStatus === "Confirmed";
             const bookingDetailsRS = {

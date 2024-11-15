@@ -2,6 +2,7 @@ import { constructBookingId } from "../../core/book.helper";
 import { IBookRequest, IBookResult } from "../../interfaces/book.interface";
 import { IPrebookResponse } from "../../interfaces/prebook.interface";
 import { ITBOCreds } from "../../middleware/tbo-auth";
+import { generateBasicAuth } from "../../utils/generate-basic-auth";
 import { TBO, TBO_ENDPOINTS } from "../../utils/tbo.req";
 
 class BookService {
@@ -45,7 +46,11 @@ class BookService {
                 password: creds.PASSWORD
             };
             console.dir({ bookURL, requestBody, auth }, { depth: null });
-            const { data: response } = await TBO.post(bookURL, requestBody, { auth });
+            const { data: response } = await TBO.post(bookURL, requestBody, {
+                headers: {
+                    Authorization: generateBasicAuth(creds.USERNAME, creds.PASSWORD)
+                }
+            });
             console.log({ response });
             const isConfirmed = response.BookResult?.HotelBookingStatus === "Confirmed";
             const bookRS = {

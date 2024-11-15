@@ -1,6 +1,7 @@
 import { destructBookingId } from "../../core/book.helper";
 import { ITBOCancelBookingResponse } from "../../interfaces/cancel-booking.interface";
 import { ITBOCreds } from "../../middleware/tbo-auth";
+import { generateBasicAuth } from "../../utils/generate-basic-auth";
 import { TBO, TBO_ENDPOINTS } from "../../utils/tbo.req";
 
 class CancelBookingService {
@@ -16,10 +17,13 @@ class CancelBookingService {
         TokenId: creds.TOKEN_ID
       };
       const { data: response } = await TBO.post(TBO_ENDPOINTS[creds.TYPE].CANCEL_BOOKING, requestBody, {
-        auth: {
-          username: creds.USERNAME,
-          password: creds.PASSWORD
+        headers: {
+          Authorization: generateBasicAuth(creds.USERNAME, creds.PASSWORD)
         }
+        // auth: {
+        //   username: creds.USERNAME,
+        //   password: creds.PASSWORD
+        // }
       }) as { data: ITBOCancelBookingResponse };
       // const status = {
       //   "0": "NotSet",

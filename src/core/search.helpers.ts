@@ -7,6 +7,7 @@ import { TBO, TBO_ENDPOINTS } from "../utils/tbo.req";
 import { ITBOPaxRoom, IRoom } from "../interfaces/search.interface";
 import { IRoomRate, ITBORoom } from "../interfaces/search.interface";
 import dayjs from "dayjs";
+import { generateBasicAuth } from "../utils/generate-basic-auth";
 
 
 export async function getStaticHotels(data: ISearchRequest) {
@@ -26,10 +27,14 @@ export async function getStaticHotels(data: ISearchRequest) {
 export async function getHotelsRates(requestBody: any, credentials: ITBOCreds): Promise<ITBOHotelRates[]> {
     console.dir({ requestBody }, { depth: null });
     const { data } = await TBO.post(TBO_ENDPOINTS[credentials.TYPE].HOTEL_SEARCH, requestBody, {
-        auth: {
-            username: credentials.USERNAME,
-            password: credentials.PASSWORD
+        headers: {
+            Authorization: generateBasicAuth(credentials.USERNAME, credentials.PASSWORD)
         }
+
+        // auth: {
+        //     username: credentials.USERNAME,
+        //     password: credentials.PASSWORD
+        // }
     })
     if (data.Status.Code !== 200) throw new CustomError("hotels search error", 500, data?.Status?.Description ?? "Error Fetching Hotels");
     return data.HotelResult;

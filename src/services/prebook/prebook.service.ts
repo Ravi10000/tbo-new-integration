@@ -1,5 +1,6 @@
 import { IPrebookRequest, IPrebookResponse, ITBOValidations } from "../../interfaces/prebook.interface";
 import { ITBOCreds } from "../../middleware/tbo-auth";
+import { generateBasicAuth } from "../../utils/generate-basic-auth";
 import { TBO, TBO_ENDPOINTS } from "../../utils/tbo.req";
 
 class PrebookService {
@@ -9,10 +10,13 @@ class PrebookService {
             BookingCode: bookingCode,
             PaymentMode: "Limit"
         }, {
-            auth: {
-                username: creds.USERNAME,
-                password: creds.PASSWORD
+            headers: {
+                Authorization: generateBasicAuth(creds.USERNAME, creds.PASSWORD)
             }
+            // auth: {
+            //     username: creds.USERNAME,
+            //     password: creds.PASSWORD
+            // }
         });
         console.dir({ response }, { depth: null });
 

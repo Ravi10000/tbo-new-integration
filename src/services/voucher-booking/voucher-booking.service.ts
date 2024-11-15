@@ -1,6 +1,7 @@
 import { constructBookingId, destructBookingId } from "../../core/book.helper";
 import { IBookResult } from "../../interfaces/book.interface";
 import { ITBOCreds } from "../../middleware/tbo-auth";
+import { generateBasicAuth } from "../../utils/generate-basic-auth";
 import { TBO, TBO_ENDPOINTS } from "../../utils/tbo.req";
 
 class VoucherBooking {
@@ -14,10 +15,13 @@ class VoucherBooking {
             console.dir({ requestBody }, { depth: null });
             const { data: response } = await TBO.post(TBO_ENDPOINTS[creds.TYPE].GENERATE_VOUCHER,
                 requestBody, {
-                auth: {
-                    username: creds.USERNAME,
-                    password: creds.PASSWORD,
+                headers: {
+                    Authorization: generateBasicAuth(creds.USERNAME, creds.PASSWORD)
                 }
+                // auth: {
+                //     username: creds.USERNAME,
+                //     password: creds.PASSWORD,
+                // }
             });
             const isConfirmed = response.GenerateVoucherResult?.HotelBookingStatus === "Confirmed";
             const result = {

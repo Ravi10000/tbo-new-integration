@@ -1,4 +1,5 @@
 import { ITBOCreds } from "../../middleware/tbo-auth";
+import { generateBasicAuth } from "../../utils/generate-basic-auth";
 import { TBO, TBO_ENDPOINTS } from "../../utils/tbo.req";
 
 class CancelBookingStatusService {
@@ -10,9 +11,12 @@ class CancelBookingStatusService {
         TokenId: creds.TOKEN_ID
       };
       const { data: response } = await TBO.post(TBO_ENDPOINTS[creds.TYPE].CANCEL_BOOKING_STATUS, requestBody, {
-        auth: {
-          username: creds.USERNAME,
-          password: creds.PASSWORD
+        // auth: {
+        //   username: creds.USERNAME,
+        //   password: creds.PASSWORD
+        // }
+        headers: {
+          Authorization: generateBasicAuth(creds.USERNAME, creds.PASSWORD)
         }
       });
       console.log({ response })

@@ -2,6 +2,7 @@ import { IDetailsRequest } from "../interfaces/details.interface";
 import { ITBOHotelDetails, ITBOHotelRates } from "../interfaces/search.interface";
 import { ITBOCreds } from "../middleware/tbo-auth";
 import CustomError from "../utils/CustomError";
+import { generateBasicAuth } from "../utils/generate-basic-auth";
 import { TBO, TBO_ENDPOINTS } from "../utils/tbo.req";
 import { generatePaxRooms, generateRoomResponse, latLng } from "./search.helpers";
 
@@ -22,10 +23,13 @@ export async function getHotelDetails(hotelCode: string, request: IDetailsReques
         }
     };
     const { data: fareRates } = await TBO.post(TBO_ENDPOINTS[credentials.TYPE].HOTEL_SEARCH, fareRequest, {
-        auth: {
-            username: credentials.USERNAME,
-            password: credentials.PASSWORD
+        headers: {
+            Authorization: generateBasicAuth(credentials.USERNAME, credentials.PASSWORD)
         }
+        // auth: {
+        //     username: credentials.USERNAME,
+        //     password: credentials.PASSWORD
+        // }
     });
 
     if (!data?.HotelDetails?.length || !fareRates?.HotelResult?.length)
