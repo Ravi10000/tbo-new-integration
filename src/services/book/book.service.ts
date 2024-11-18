@@ -24,7 +24,7 @@ class BookService {
                         LastName: guest.lastName,
                         Email: guest.email,
                         PaxType: guest.guestType === "ADT" ? 1 : 2,
-                        LeadPassenger: guestIdx === 0 && idx === 0,
+                        LeadPassenger: guestIdx === 0,
                         // Age: guest.age ?? 0,
                         // PassportNo: null,
                         // PassportIssueDate: null,
